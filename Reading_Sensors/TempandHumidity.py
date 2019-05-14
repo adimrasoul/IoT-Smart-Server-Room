@@ -24,7 +24,7 @@ class DHT11_Reader(object):
             current_time = get_time.strftime("%Y-%m-%d %H:%M:%S")
             print('Time: ',current_time,'Temp: {0:0.1f} C  Humidity: {1:0.1f} %'.format(self.temperature, self.humidity))
             "put all the data in a Json"
-            OutputJson = json.dumps({"temperature": self.temperature, "humidity": self.humidity,"time":current_time})
+            OutputJson = json.dumps({"temperature": self.temperature, "humidity": self.humidity ,"time":current_time})
 
             return OutputJson
         else:
