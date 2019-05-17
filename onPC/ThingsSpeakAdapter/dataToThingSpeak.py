@@ -27,47 +27,56 @@ class PublishDataTS(object):
         self.topic = str("channels/" + self.channelId + "/publish/" + self.writeApiKey)
         print ("ThingSpesk: THINGSPEAK VARIABLES ARE READY")
         return
-    def sendingDhtData(self, message):
+    def sendingData(self, message):
         temperature = message["temp"]
         humidity = message["hum"]
-        print("To thingspeak: ", temperature, humidity)
-#        print ('Temp: {0:0.1f} C  Humidity: {1:0.1f} %'.format(temperature, humidity))
-        # build the payload string
-        payload = str("&field1=" + str(temperature) + "&field2=" + str(humidity))
-        # attempt to publish this data to the topic
-        try:
-            self.client.publish(self.topic, payload)
-        except:
-            print("* ThingSpeak: ERROR IN PUBLISHING THE HUM AND TEMP TO THINGSPEAK *")
-        return
-    def acStatus(self, order):
-        status = order["acStatus"]
-        if(status == "ON"):
+        status = message["acStatus"]
+        if (status == "ON"):
             result = 1
-        if(status == "OFF"):
+        if (status == "OFF"):
             result = 0
-        # build the payload string
-        print("To thingspeak: ", result)
-        self.setThingSpeakVariables()
-        payload = str("&field3=" + str(result))
-        # attempt to publish this data to the topic
-        try:
-            self.client.publish(self.topic, payload)
-        except:
-            print("* ThingSpeak: ERROR IN PUBLISHING THE AIR CONDITION STATUS TO THINGSPEAK *")
-        return
-    def sendingMotionData(self, message):
         motion = message["motion"]
-        print("To thingspeak: ", motion)
-#        print ('Temp: {0:0.1f} C  Humidity: {1:0.1f} %'.format(temperature, humidity))
+        if (motion == "SOMEBODY"):
+            result2 = 1
+        elif (motion == "NOBODY")
+            result2 = 0
+        print("To thingspeak: ", temperature, humidity)
         # build the payload string
-        payload = str("&field4=" + str(motion))
+        payload = str("&field1=" + str(temperature) + "&field2=" + str(humidity) + "&field3=" + str(result) + "&field4=" + str(result2))
         # attempt to publish this data to the topic
         try:
             self.client.publish(self.topic, payload)
         except:
             print("* ThingSpeak: ERROR IN PUBLISHING THE HUM AND TEMP TO THINGSPEAK *")
         return
+    # def acStatus(self, order):
+    #     status = order["acStatus"]
+    #     if(status == "ON"):
+    #         result = 1
+    #     if(status == "OFF"):
+    #         result = 0
+    #     # build the payload string
+    #     print("To thingspeak: ", result)
+    #     self.setThingSpeakVariables()
+    #     payload = str("&field3=" + str(result))
+    #     # attempt to publish this data to the topic
+    #     try:
+    #         self.client.publish(self.topic, payload)
+    #     except:
+    #         print("* ThingSpeak: ERROR IN PUBLISHING THE AIR CONDITION STATUS TO THINGSPEAK *")
+    #     return
+#     def sendingMotionData(self, message):
+#         motion = message["motion"]
+#         print("To thingspeak: ", motion)
+# #        print ('Temp: {0:0.1f} C  Humidity: {1:0.1f} %'.format(temperature, humidity))
+#         # build the payload string
+#         payload = str("&field4=" + str(motion))
+#         # attempt to publish this data to the topic
+#         try:
+#             self.client.publish(self.topic, payload)
+#         except:
+#             print("* ThingSpeak: ERROR IN PUBLISHING THE HUM AND TEMP TO THINGSPEAK *")
+#         return
 
     
 if __name__ == '__main__':
@@ -132,8 +141,8 @@ if __name__ == '__main__':
             #client.loop_start()
             #sens.setThingSpeakVariables()
             sens.sendingDhtData(RTDjsonFormat)
-            sens.acStatus(RTDjsonFormat)
-            sens.sendingMotionData(RTDjsonFormat)
+            #sens.acStatus(RTDjsonFormat)
+            #sens.sendingMotionData(RTDjsonFormat)
         except:
             print ("* SubscribeDataTS: PROBLEM IN CONNECTING TO THE BROKER *")
         time.sleep(30) 
