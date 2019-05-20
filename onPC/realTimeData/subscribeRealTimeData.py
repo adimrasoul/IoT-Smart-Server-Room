@@ -39,16 +39,16 @@ class subscribeData(object):
         subject = receivedInfo["subject"]
         # if the received info are about an existing room, updating data
         if (rommId in actualInfoOnFile):
-            if (subject == "tempHumData"):
+            if (subject == "temp_hum_data"):
                 actualInfoOnFile[rommId]["temp"] = receivedInfo["temperature"]
                 actualInfoOnFile[rommId]["hum"] = receivedInfo["humidity"]
             elif (subject == "acStatus"):
                 actualInfoOnFile[rommId]["acStatus"] = receivedInfo["status"]
-            elif (subject == "motion"):
+            elif (subject == "motion_data"):
                 actualInfoOnFile[rommId]["motion"] = receivedInfo["motion"]
         # if the received info are not about an existing room, creating new room inside the data
         else:
-            if (subject == "tempHumData"):
+            if (subject == "temp_hum_data"):
                 temporaryJson = {}
                 temporaryJson["temp"] = receivedInfo["temperature"]
                 temporaryJson["hum"] = receivedInfo["humidity"]
@@ -62,7 +62,7 @@ class subscribeData(object):
                 temporaryJson["acStatus"] = receivedInfo["status"]
                 temporaryJson["motion"] = "0"
                 actualInfoOnFile[rommId] = temporaryJson
-            elif (subject == "motion"):
+            elif (subject == "motion_data"):
                 temporaryJson = {}
                 temporaryJson["temp"] = 0
                 temporaryJson["hum"] = 0

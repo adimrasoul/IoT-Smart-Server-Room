@@ -1,14 +1,1 @@
-{
-	"room1": {
-		"temp": 25.0,
-		"acStatus": "OFF",
-		"hum": 35.0,
-		"motion": 1
-	},
-	"room2": {
-		"temp": 28.0,
-		"acStatus": "ON",
-		"hum": 33.0,
-		"motion": 0
-	}
-}
+{"room1": {"temp": 19.0, "acStatus": "OFF", "hum": 51.0, "motion": 1}, "room2": {"temp": 28.0, "acStatus": "ON", "hum": 33.0, "motion": 0}}

@@ -6,16 +6,16 @@ import time
 import datetime
 import paho.mqtt.client as mqtt
 
-class checkingThreshold(object):
+class checkingHumidity(object):
     def __init__(self, url, roomId, client):
         self.urlResource = url
         self.roomId = roomId
-        # self.temperature = 0.00
-        # self.humidity = 0.00
-        # self.maxTemp = 0.00
-        # self.maxHum = 0.00
-        # self.minTemp = 0.00
-        # self.minHum = 0.00
+        #self.temperature = 0.00
+        self.humidity = 0.00
+        #self.maxTemp = 0.00
+        self.maxHum = 0.00
+        #self.minTemp = 0.00
+        self.minHum = 0.00
         self.client = client
     def loadFile(self):
         try:
@@ -34,30 +34,31 @@ class checkingThreshold(object):
             #print('o')
             jsonFormat = json.loads(respond.text)
             self.acOrder = jsonFormat["topic"]["acOrder"]
-            self.maxTemp = jsonFormat["thresholds"]["maxTemp"]
-            #self.maxHum = jsonFormat["thresholds"]["maxHum"]
-            self.minTemp = jsonFormat["thresholds"]["minTemp"]
-            #self.minHum = jsonFormat["thresholds"]["minHum"]
+            #self.maxTemp = jsonFormat["thresholds"]["maxTemp"]
+            self.maxHum = jsonFormat["thresholds"]["maxHum"]
+            #self.minTemp = jsonFormat["thresholds"]["minTemp"]
+            self.minHum = jsonFormat["thresholds"]["minHum"]
         except :
             print("* CheckingThreshold: ERROR IN CONNECTING TO THE SERVER FOR READING initial_data.JSON *")
         return
     def gettingTempHum(self):
         # sending request to the MQTT To WebService to get the current value for temperature and humidity
         try:
-            self.temperature = requests.get("http://" + self.restURL + ":" + self.port + "/" + self.roomId + "/temp").content
-            #self.humidity = requests.get("http://" + self.restURL + ":" + self.port + "/" + self.roomId + "/hum").content
-            print("real time data", self.temperature)
+            #self.temperature = requests.get("http://" + self.restURL + ":" + self.port + "/" + self.roomId + "/temp").content
+            self.humidity = requests.get("http://" + self.restURL + ":" + self.port + "/" + self.roomId + "/hum").content
+            #print("real time data", self.temperature, self.humidity)
+            print("real time data", self.humidity)
         except:
             print("* CheckingThreshold: ERROR IN GETTING DATA FROM WEB SERVICE *")
         return
     def checkThresholds(self):
         # check the current values with the thresholds
-        temperature = float(self.temperature)
-        #humidity = float(self.humidity)
+        #temperature = float(self.temperature)
+        humidity = float(self.humidity)
         #if (temperature > float(self.maxTemp)) or (temperature < float(self.minTemp)) or (humidity > float(self.maxHum)) or (humidity < float(self.minHum)):
         #if (temperature > float(self.maxTemp)) or (humidity > float(self.maxHum)) or (humidity < float(self.minHum)):
-        if (temperature > float(self.maxTemp)):
-            #set the publisher message for turning on the A/C
+        if ((humidity > float(self.maxHum)) or (humidity < float(self.minHum))):
+            # set the publisher message for turning on the A/C
             self.order = "turnOn"
             try:
                 self.orderMsg = json.dumps({"subject": "acOrder", "roomId": self.roomId, "order": str(self.order)})
@@ -95,7 +96,7 @@ class checkingThreshold(object):
             print(self.orderMsg)
             print(self.acOrder)
             self.client.publish(self.acOrder, str(self.orderMsg))#, qos=1)
-            return ("CIAONE", self.orderMsg)
+            return ("published: ", self.orderMsg)
         except:
             getTime = datetime.datetime.now()
             currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
@@ -117,8 +118,8 @@ if __name__ == '__main__':
     roomId = configJson["resourceCatalog"]["roomId"]
     # creating an MQTT client
     client = mqtt.Client()
-    # create a class ChackingThreshold
-    sens = checkingThreshold(resourceCatalogIp, roomId, client)
+    # create a class checkingHumidity
+    sens = checkingHumidity(resourceCatalogIp, roomId, client)
     # sensing the data from the sensors
     while True:
         sens.loadFile()
@@ -133,8 +134,8 @@ if __name__ == '__main__':
         except:
             print("* PublishData: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER IP *")
         try:
-            client.on_connect = checkingThreshold.on_connect
-            client.on_publish = checkingThreshold.on_publish
+            client.on_connect = checkingHumidity.on_connect
+            client.on_publish = checkingHumidity.on_publish
             client.connect(str(ip), int(port))
             client.loop_start()
         except:
