@@ -1,4 +1,5 @@
 # checking if the real time data are inside the given threshold
+# temperature
 
 import requests
 import json
@@ -19,7 +20,7 @@ class checkingThreshold(object):
         self.client = client
     def loadFile(self):
         try:
-            # sending the rquest to the resource catalog to get the MQTT to webService url
+            # sending the request to the resource catalog to get the MQTT to webService url
             respond = requests.get(self.urlResource + "/realTimeData")
             #print(self.urlResource)
             jsonFormat = json.loads(respond.text)

@@ -1,4 +1,5 @@
 # checking if the real time data are inside the given threshold
+# humidity
 
 import requests
 import json
@@ -11,15 +12,15 @@ class checkingHumidity(object):
         self.urlResource = url
         self.roomId = roomId
         #self.temperature = 0.00
-        self.humidity = 0.00
+        #self.humidity = 0.00
         #self.maxTemp = 0.00
-        self.maxHum = 0.00
+        #self.maxHum = 0.00
         #self.minTemp = 0.00
-        self.minHum = 0.00
+        #self.minHum = 0.00
         self.client = client
     def loadFile(self):
         try:
-            # sending the rquest to the resource catalog to get the MQTT to webService url
+            # sending the request to the resource catalog to get the MQTT to webService url
             respond = requests.get(self.urlResource + "/realTimeData")
             #print(self.urlResource)
             jsonFormat = json.loads(respond.text)
