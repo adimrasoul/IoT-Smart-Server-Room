@@ -10,15 +10,18 @@
         "port": "8082"},
     "room1": 
         {"topic":
-            {"acTopic": "dataCenter/room1/status",
-            "acOrder": "dataCenter/room1/order",
+            {"acTopic": "dataCenter/room1/acStatus",
+             "dehumTopic": "dataCenter/room1/status",
+             "dehumOrder": "dataCenter/room1/order",
+            "acOrder": "dataCenter/room1/acOrder",
             "dhtTopic": "dataCenter/room1/tempHum",
-            "motionTopic": "dataCenter/room1/motion"},
+            "motionTopic": "dataCenter/room1/motion",
+            "smokeTopic":  "dataCenter/room1/smoke"},
         "thresholds":
             {"minHum": "0.0",
             "minTemp": "0.0",
-            "maxHum": "10.0",
-            "maxTemp": "10.0"},
+            "maxHum": "40.0",
+            "maxTemp": "23.0"},
         "thingspeak":
             {"readApiKey": "2DGGY3FYV3YM17W2",
             "writeApiKey": "TN1BC2E60X1WKNBU",
@@ -29,10 +32,13 @@
         "id": 3},
     "room2":
         {"topic":
-            {"acTopic": "dataCentr/room2/status",
-            "acOrder": "dataCenter/room2/order",
+            {"acTopic": "dataCenter/room2/acStatus",
+             "dehumTopic": "dataCenter/room2/status",
+             "dehumOrder": "dataCenter/room2/order",
+            "acOrder": "dataCenter/room2/acOrder",
             "dhtTopic": "dataCenter/room2/tempHum",
-            "motionTopic": "dataCenter/room2/motion"},
+            "motionTopic": "dataCenter/room2/motion",
+            "smokeTopic":  "dataCenter/room2/smoke"},
         "telegram":
             {"port": "703515369:AAHNVcjLqm2XxuoH4syIXKgZuhgeSm4TrYU"},
         "thresholds":
