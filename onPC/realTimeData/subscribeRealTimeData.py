@@ -44,8 +44,12 @@ class subscribeData(object):
                 actualInfoOnFile[rommId]["hum"] = receivedInfo["humidity"]
             elif (subject == "acStatus"):
                 actualInfoOnFile[rommId]["acStatus"] = receivedInfo["status"]
+            elif (subject == "dehumStatus"):
+                actualInfoOnFile[rommId]["dehumStatus"] = receivedInfo["status"]
+            elif (subject == "smoke"):
+                actualInfoOnFile[rommId]["smoke"] = receivedInfo["value"]
             elif (subject == "motion_data"):
-                actualInfoOnFile[rommId]["motion"] = receivedInfo["motion"]
+                actualInfoOnFile[rommId]["motion"] = receivedInfo["Motion_Detection"]
         # if the received info are not about an existing room, creating new room inside the data
         else:
             if (subject == "temp_hum_data"):
@@ -53,21 +57,45 @@ class subscribeData(object):
                 temporaryJson["temp"] = receivedInfo["temperature"]
                 temporaryJson["hum"] = receivedInfo["humidity"]
                 temporaryJson["acStatus"] = "OFF"
+                temporaryJson["dehumSatus"] = '0'
                 temporaryJson["motion"] = "0"
+                temporaryJson["smoke"] = "0"
                 actualInfoOnFile[rommId] = temporaryJson
             elif (subject == "acStatus"):
                 temporaryJson = {}
                 temporaryJson["temp"] = 0
                 temporaryJson["hum"] = 0
                 temporaryJson["acStatus"] = receivedInfo["status"]
+                temporaryJson["dehumSatus"] = '0'
                 temporaryJson["motion"] = "0"
+                temporaryJson["smoke"] = "0"
+                actualInfoOnFile[rommId] = temporaryJson
+            elif (subject == "dehumStatus"):
+                temporaryJson = {}
+                temporaryJson["temp"] = 0
+                temporaryJson["hum"] = 0
+                temporaryJson["acStatus"] = "OFF"
+                temporaryJson["dehumSatus"] = receivedInfo["dehumStatus"]
+                temporaryJson["motion"] = "0"
+                temporaryJson["smoke"] = "0"
                 actualInfoOnFile[rommId] = temporaryJson
             elif (subject == "motion_data"):
                 temporaryJson = {}
                 temporaryJson["temp"] = 0
                 temporaryJson["hum"] = 0
                 temporaryJson["acStatus"] = "OFF"
+                temporaryJson["dehumSatus"] = '0'
                 temporaryJson["motion"] = receivedInfo["motion"]
+                temporaryJson["smoke"] = "0"
+                actualInfoOnFile[rommId] = temporaryJson
+            elif (subject == "motion_data"):
+                temporaryJson = {}
+                temporaryJson["temp"] = 0
+                temporaryJson["hum"] = 0
+                temporaryJson["acStatus"] = "OFF"
+                temporaryJson["dehumSatus"] = '0'
+                temporaryJson["motion"] = "0"
+                temporaryJson["smoke"] = receivedInfo["value"]
                 actualInfoOnFile[rommId] = temporaryJson
         # write the data into the file
         try:
