@@ -11,9 +11,6 @@ class checkingThreshold(object):
     def __init__(self, url, roomId, client):
         self.urlResource = url
         self.roomId = roomId
-        # self.temperature = 0.00
-        # self.maxTemp = 0.00
-        # self.minTemp = 0.00
         self.client = client
     def loadFile(self):
         try:
@@ -38,7 +35,6 @@ class checkingThreshold(object):
         # sending request to the MQTT To WebService to get the current value for temperature and humidity
         try:
             self.temperature = requests.get("http://" + self.restURL + ":" + self.port + "/" + self.roomId + "/temp").content
-            #self.humidity = requests.get("http://" + self.restURL + ":" + self.port + "/" + self.roomId + "/hum").content
             print("real time data", self.temperature)
         except:
             print("* CheckingThreshold: ERROR IN GETTING DATA FROM WEB SERVICE *")
@@ -66,17 +62,16 @@ class checkingThreshold(object):
         # get the current time
         getTime = datetime.datetime.now()
         currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
-        print ('CONNACK received with code: ' + str(rc))
-        print ("at time: " + str(currentTime))
+        print('CONNACK received with code: ' + str(rc))
+        print("at time: " + str(currentTime))
         return str(rc)
     @classmethod
     def on_publish(cls, client, userdata, mid):
         # get the current time
         getTime = datetime.datetime.now()
         currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
-        print("mid: " + str(mid))
         print("Published Message")
-        print ("at time: " + str(currentTime))
+        print("at time: " + str(currentTime))
         print("--------------------------------------------------------------------")
         return str(mid)
     def publish_order(self):
@@ -85,7 +80,6 @@ class checkingThreshold(object):
             print(self.orderMsg)
             print(self.acOrder)
             self.client.publish(self.acOrder, str(self.orderMsg))#, qos=1)
-            return ("CIAONE", self.orderMsg)
         except:
             getTime = datetime.datetime.now()
             currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
@@ -107,7 +101,7 @@ if __name__ == '__main__':
     roomId = configJson["resourceCatalog"]["roomId"]
     # creating an MQTT client
     client = mqtt.Client()
-    # create a class ChackingThreshold
+    # create a class checkingThreshold
     sens = checkingThreshold(resourceCatalogIp, roomId, client)
     # sensing the data from the sensors
     while True:

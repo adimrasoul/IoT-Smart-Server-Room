@@ -6,9 +6,8 @@ import telepot
 class telegramBot(object):
     def __init__(self,url,port):
         self.url = url
-        #bot = telepot.Bot(port)
-# ask the mqtt to web service url from the resource catalog
     def setWebServiceVariables(self):
+        # reading real time data ip
         try:
             respond = requests.get(self.url+"realTimeData")
         except:
@@ -29,10 +28,6 @@ class telegramBot(object):
         try:
             # sending the request to the mqtt to web service
             result = requests.get("http://"+self.restURL + ":" + self.port + "/"+command+"/all")#.content
-            print(self.restURL)
-            print(self.port)
-            print(command)
-            #time.sleep(5)
             jsonformat = json.loads(result.text)
             temp=jsonformat['temp']
             hum=jsonformat['hum']
@@ -63,10 +58,9 @@ if __name__ == '__main__':
         file.close()
     except:
         raise KeyError("* DataWithRest: ERROR IN READING CONFIG FILE *")
-
     config_json = json.loads(json_string)
     url = config_json["resourceCatalog"]["url"]
-# sending request to the resource catolog to get the telegram bot port
+    # sending request to the resource catolog to get the telegram bot port
     try:
         respond = requests.get(url+"telegram")
         json_format = json.loads(respond.text)
@@ -80,8 +74,8 @@ if __name__ == '__main__':
             telegram_bot.handler(msg)
         bot = telepot.Bot(port)
         bot.message_loop(handle)
-        print ('I am listening...')
+        print('I am listening...')
     except:
-        print ("TelegramBot: ERROR IN CONNECTING TO THE TELEGRAM BOT")
+        print("TelegramBot: ERROR IN CONNECTING TO THE TELEGRAM BOT")
     while 1:
         time.sleep(10)

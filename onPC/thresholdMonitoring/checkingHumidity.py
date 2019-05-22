@@ -11,9 +11,6 @@ class checkingHumidity(object):
     def __init__(self, url, roomId, client):
         self.urlResource = url
         self.roomId = roomId
-        #self.humidity = 0.00
-        #self.maxHum = 0.00
-        #self.minHum = 0.00
         self.client = client
     def loadFile(self):
         try:
@@ -73,7 +70,6 @@ class checkingHumidity(object):
         # get the current time
         getTime = datetime.datetime.now()
         currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
-        print("mid: " + str(mid))
         print("Published Message")
         print("at time: " + str(currentTime))
         print("--------------------------------------------------------------------")
@@ -84,11 +80,10 @@ class checkingHumidity(object):
             print(self.orderMsg)
             print(self.dehumOrder)
             self.client.publish(self.dehumOrder, str(self.orderMsg))#, qos=1)
-            return("published: ", self.orderMsg)
         except:
             getTime = datetime.datetime.now()
             currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
-            print("* PublishAcStatus: ERROR IN PUBLISHING THE DATA *")
+            print("* PublishHumStatus: ERROR IN PUBLISHING THE DATA *")
             print("at time: " + str(currentTime))
         return
 

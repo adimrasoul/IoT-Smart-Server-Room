@@ -3,7 +3,6 @@
 import json
 import time
 import requests
-#import telepot
 
 class telegramAlarm(object):
     def __init__(self, urlRealTime,roomId):
@@ -40,7 +39,6 @@ class telegramAlarm(object):
         else:
             pass
         self.oldStatus = self.currentStatus
-        #print(self.oldStatus)
 
 
 if __name__ == '__main__':
@@ -60,7 +58,7 @@ if __name__ == '__main__':
         respond = requests.get(url+"all")
         jsonFormat = json.loads(respond.text)
     except:
-        print("* ERROR IN CONNECTING TO RSOURCE CATALOG WEB SERVICE *")
+        print("* ERROR IN CONNECTING TO RESOURCE CATALOG WEB SERVICE *")
     port = jsonFormat['telegram']["port"]
     chatId = jsonFormat['telegram']["chatId"]
     urlRealTime = 'http://' + jsonFormat['realTimeData']['ip'] + ':' + jsonFormat['realTimeData']['port']
@@ -68,20 +66,3 @@ if __name__ == '__main__':
     while True:
         obj.checkValue()
         time.sleep(20)
-    # reading motion status
-    
-#    sendText = 'https://api.telegram.org/bot' + port + '/sendMessage?chat_id=' + chatId + '&parse_mode=Markdown&text=' + str(status)
-
-#    response = requests.get(sendText)
-
-    #print(response.json())
-#    try:
-#        def handle(msg):
-#            telegram_bot.handler(msg)
-#        bot = telepot.Bot(port)
-#        bot.message_loop(handle)
-#        print ('I am listening...')
-#    except:
-#        print ("TelegramBot: ERROR IN CONNECTING TO THE TELEGRAM BOT")
-#    while 1:
-#        time.sleep(10)

@@ -15,7 +15,7 @@ class subscribeData(object):
         getTime = datetime.datetime.now()
         currentTime =  getTime.strftime("%Y-%m-%d %H:%M:%S")
         print("Subscribed: " + str(mid) + " " + str(granted_qos))
-        print ("at time: " + str(currentTime))
+        print("at time: " + str(currentTime))
     @classmethod
     def on_message(self, client, userdata, msg):
         # the received message is in json format
@@ -23,7 +23,7 @@ class subscribeData(object):
         getTime = datetime.datetime.now()
         currentTime =  getTime.strftime("%Y-%m-%d %H:%M:%S")
         print("message received ", str(msg.payload.decode("utf-8")))
-        print ("at time: " + str(currentTime))
+        print("at time: " + str(currentTime))
         print("--------------------------------------------------------------------")
         messageBody = str(msg.payload.decode("utf-8"))
         # readng the file with real time data
@@ -99,7 +99,6 @@ class subscribeData(object):
                 actualInfoOnFile[rommId] = temporaryJson
         # write the data into the file
         try:
-            #with open("realTimeData.json", 'w') as jsonDataFile:
             jsonDataFile = open("realTimeData.json", 'w')
             json.dump(actualInfoOnFile, jsonDataFile)
             jsonDataFile.close()
@@ -118,7 +117,6 @@ if __name__ == '__main__':
     url = configJson["resourceCatalog"]["url"]
     topic = configJson["resourceCatalog"]["wildcard"]
     client = mqtt.Client()
-    ##### quando uso sens???
     sens = subscribeData(client)
     while True:
         # sending the request to the resource catolog to set the broker ip and topics

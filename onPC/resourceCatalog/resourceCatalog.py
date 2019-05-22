@@ -81,7 +81,7 @@ class resourceCatalog(object):
             json.dump(iniData, temp)
             return "UPDATED"
         except Exception as e:
-            print ("* Error:",e)
+            print("* Error:",e)
             return "Problem in updating file *"
 
 if __name__ == '__main__':

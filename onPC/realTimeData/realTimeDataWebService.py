@@ -39,7 +39,7 @@ class realTimeDataWebService(object):
             return "Nothing found, check the input again"
 
 if __name__ == '__main__':
-    # reading the reaource catalog url from the json file
+    # reading the resource catalog url from the json file
     try:
         file = open("configFile.json", "r")
         jsonString = file.read()

@@ -23,13 +23,12 @@ class PublishDataTS(object):
         self.channelId = json_format["thingspeak"]["channelId"]
         # create the topic string
         self.topic = str("channels/" + self.channelId + "/publish/" + self.writeApiKey)
-        print ("ThingSpesk: THINGSPEAK VARIABLES ARE READY")
+        print("ThingSpesk: THINGSPEAK VARIABLES ARE READY")
         return
     def sendingData(self, message):
         temperature = message['temp']
         humidity = message["hum"]
         status = message["acStatus"]
-        print(status)
         if (status == "ON"):
             result = 1
         else:
