@@ -62,14 +62,14 @@ class checkingHumidity(object):
             # set the publisher message for turning on the A/C
             self.order = "turnOn"
             try:
-                self.orderMsg = json.dumps({"subject": "acOrder", "roomId": self.roomId, "order": str(self.order)})
+                self.orderMsg = json.dumps({"subject": "dehumOrder", "roomId": self.roomId, "order": str(self.order)})
             except:
                 print("* CheckingThreshold: ERROR IN SENDING TURN ON ORDER *")
         else:
             # set the publisher message for turning off the A/C
             self.order = "turnOff"
             try:
-                self.orderMsg = json.dumps({"subject": "acOrder", "roomId": self.roomId, "order": str(self.order)})
+                self.orderMsg = json.dumps({"subject": "dehumOrder", "roomId": self.roomId, "order": str(self.order)})
             except:
                 print("* CheckingThreshold: ERROR IN SENDING TURN OFF ORDER *")
         return
@@ -78,8 +78,8 @@ class checkingHumidity(object):
         # get the current time
         getTime = datetime.datetime.now()
         currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
-        print ('CONNACK received with code: ' + str(rc))
-        print ("at time: " + str(currentTime))
+        print('CONNACK received with code: ' + str(rc))
+        print("at time: " + str(currentTime))
         return str(rc)
     @classmethod
     def on_publish(cls, client, userdata, mid):
@@ -88,7 +88,7 @@ class checkingHumidity(object):
         currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
         print("mid: " + str(mid))
         print("Published Message")
-        print ("at time: " + str(currentTime))
+        print("at time: " + str(currentTime))
         print("--------------------------------------------------------------------")
         return str(mid)
     def publish_order(self):
@@ -97,7 +97,7 @@ class checkingHumidity(object):
             print(self.orderMsg)
             print(self.acOrder)
             self.client.publish(self.acOrder, str(self.orderMsg))#, qos=1)
-            return ("published: ", self.orderMsg)
+            return("published: ", self.orderMsg)
         except:
             getTime = datetime.datetime.now()
             currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
