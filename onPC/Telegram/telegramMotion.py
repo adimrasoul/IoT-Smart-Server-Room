@@ -6,8 +6,9 @@ import requests
 #import telepot
 
 class telegramAlarm(object):
-    def __init__(self, urlRealTime):
+    def __init__(self, urlRealTime,roomId):
         self.urlRealTime = urlRealTime
+        self.roomId = roomId
         # needed a first time to read the initial value of the motion sensor
         try:
             # getting the real time data
@@ -15,7 +16,7 @@ class telegramAlarm(object):
             jsonFormatDue = json.loads(realTimeData.text)
         except:
             print("* ERROR IN CONNECTING TO REAL TIME DATA WEB SERVICE *")
-        self.oldStatus = jsonFormatDue['room1']['motion']
+        self.oldStatus = jsonFormatDue[self.roomId]['motion']
         print(self.oldStatus)
         return
     def checkValue(self):
@@ -25,7 +26,7 @@ class telegramAlarm(object):
             jsonFormatDue = json.loads(realTimeData.text)
         except:
             print("* ERROR IN CONNECTING TO REAL TIME DATA WEB SERVICE *")
-        self.currentStatus = jsonFormatDue['room1']['motion']
+        self.currentStatus = jsonFormatDue[self.roomId]['motion']
         # if the previous value of the motion sensor was different from the actual, send a message
         print('curr', self.currentStatus)
         print('old', self.oldStatus)
@@ -53,6 +54,7 @@ if __name__ == '__main__':
     
     configJson = json.loads(jsonString)
     url = configJson["resourceCatalog"]["url"]
+    roomId = configJson["resourceCatalog"]["roomId"]
     # sending a request to the resource catolog to get info on the telegram bot and the url with the real time data
     try:
         respond = requests.get(url+"all")
@@ -62,11 +64,10 @@ if __name__ == '__main__':
     port = jsonFormat['telegram']["port"]
     chatId = jsonFormat['telegram']["chatId"]
     urlRealTime = 'http://' + jsonFormat['realTimeData']['ip'] + ':' + jsonFormat['realTimeData']['port']
-    obj = telegramAlarm(urlRealTime)
+    obj = telegramAlarm(urlRealTime,roomId)
     while True:
         obj.checkValue()
         time.sleep(20)
-    # si può aggiungere roomId nel configuration file
     # reading motion status
     
 #    sendText = 'https://api.telegram.org/bot' + port + '/sendMessage?chat_id=' + chatId + '&parse_mode=Markdown&text=' + str(status)

@@ -6,8 +6,9 @@ import requests
 
 
 class telegramAlarm(object):
-    def __init__(self, urlRealTime):
+    def __init__(self, urlRealTime,roomId):
         self.urlRealTime = urlRealTime
+        self.roomId = roomId
         # needed a first time to read the initial value of the motion sensor
         return
     def checkValue(self):
@@ -17,7 +18,7 @@ class telegramAlarm(object):
             jsonFormatDue = json.loads(realTimeData.text)
         except:
             print("* ERROR IN CONNECTING TO REAL TIME DATA WEB SERVICE *")
-        self.value = jsonFormatDue['room1']['smoke']
+        self.value = jsonFormatDue[self.roomId]['smoke']
         # if the previous value of the motion sensor was different from the actual, send a message
         #print('curr', self.currentStatus)
         #print('old', self.oldStatus)
@@ -43,6 +44,7 @@ if __name__ == '__main__':
 
     configJson = json.loads(jsonString)
     url = configJson["resourceCatalog"]["url"]
+    roomId = configJson["resourceCatalog"]["roomId"]
     # sending a request to the resource catolog to get info on the telegram bot and the url with the real time data
     try:
         respond = requests.get(url + "all")
@@ -52,7 +54,7 @@ if __name__ == '__main__':
     port = jsonFormat['telegram']["port"]
     chatId = jsonFormat['telegram']["chatId"]
     urlRealTime = 'http://' + jsonFormat['realTimeData']['ip'] + ':' + jsonFormat['realTimeData']['port']
-    obj = telegramAlarm(urlRealTime)
+    obj = telegramAlarm(urlRealTime,roomId)
     while True:
         obj.checkValue()
         time.sleep(20)
