@@ -26,6 +26,10 @@ class realTimeDataWebService(object):
                 return str(results[item]['hum'])
             elif (uri[1] == 'ac'):
                 return str(results[item]['acStatus'])
+            elif (uri[1] == 'dehum'):
+                return str(results[item]['dehumStatus'])
+            elif (uri[1] == 'smoke'):
+                return str(results[item]['smoke'])
             elif (uri[1] == 'mot'):
                 return str(results[item]['motion'])
             elif (uri[1] == 'all'):
