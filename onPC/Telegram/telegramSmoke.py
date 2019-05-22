@@ -22,7 +22,7 @@ class telegramAlarm(object):
         # if the previous value of the motion sensor was different from the actual, send a message
         #print('curr', self.currentStatus)
         #print('old', self.oldStatus)
-        if (self.value > 80):
+        if (int(self.value) > 80):
             sendText1 = 'https://api.telegram.org/bot' + port + '/sendMessage?chat_id=' + chatId + '&parse_mode=Markdown&text=' + 'ALERT'
             sendText2 = 'https://api.telegram.org/bot' + port + '/sendMessage?chat_id=' + chatId + '&parse_mode=Markdown&text=' + 'there is smoke'
             response = requests.get(sendText1)

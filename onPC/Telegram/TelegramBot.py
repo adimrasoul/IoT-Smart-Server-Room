@@ -28,7 +28,10 @@ class telegramBot(object):
         print('trying to send back the result')
         try:
             # sending the request to the mqtt to web service
-            result = requests.get("http://"+self.restURL+ ":" + self.port+ "/"+command+"/all")#.content
+            result = requests.get("http://"+self.restURL + ":" + self.port + "/"+command+"/all")#.content
+            print(self.restURL)
+            print(self.port)
+            print(self.command)
             time.sleep(5)
             jsonformat = json.loads(result.text)
             temp=jsonformat['temp']

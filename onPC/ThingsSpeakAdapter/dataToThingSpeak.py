@@ -27,18 +27,22 @@ class PublishDataTS(object):
         self.topic = str("channels/" + self.channelId + "/publish/" + self.writeApiKey)
         print ("ThingSpesk: THINGSPEAK VARIABLES ARE READY")
         return
-    def sendingData(self, message):
-        temperature = message["temp"]
+    def sendingDhtData(self, message):
+        print(message)
+        temperature = message['temp']
+        print(temperature)
         humidity = message["hum"]
+        print(humidity)
         status = message["acStatus"]
+        print(status)
         if (status == "ON"):
             result = 1
-        if (status == "OFF"):
+        else:
             result = 0
-        motion = message["motion"]
-        if (motion == "SOMEBODY"):
+        motion = int(message["motion"])
+        if (motion == 1):
             result2 = 1
-        elif (motion == "NOBODY")
+        else:
             result2 = 0
         print("To thingspeak: ", temperature, humidity)
         # build the payload string
@@ -132,6 +136,7 @@ if __name__ == '__main__':
             #respond = requests.get('http://' + realTimeDataUrl + "/room1/all")
             respond = requests.get('http://' + realTimeDataUrl + "/" + str(roomId) + "/all")
             RTDjsonFormat = json.loads(respond.text)
+            #print(RTDjsonFormat)
             print("SubscribeDataTS: BROKER VARIABLES ARE READY")
         except:
             print("* SubscribeDataTS: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS *")
