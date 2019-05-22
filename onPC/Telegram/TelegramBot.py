@@ -31,15 +31,16 @@ class telegramBot(object):
             result = requests.get("http://"+self.restURL + ":" + self.port + "/"+command+"/all")#.content
             print(self.restURL)
             print(self.port)
-            print(self.command)
-            time.sleep(5)
+            print(command)
+            #time.sleep(5)
             jsonformat = json.loads(result.text)
             temp=jsonformat['temp']
             hum=jsonformat['hum']
             staus=jsonformat['acStatus']
             motion = jsonformat['motion']
-            outputString = 'Temperature: '+ str(temp) + "\n" + 'Humidity: ' + str(hum) +"\n"+"acStatus: "+staus+"\n" + "motion:" + motion + "\n"
-
+            smoke = jsonformat['smoke']
+            outputString = 'Temperature: '+ str(temp) + '; humidity: ' + str(hum) +"; acStatus: "+str(staus) +"; motion:" + str(motion) + "; smoke:" + str(smoke)
+            #print(outputString)
         except:
                 return "Please enter the correct room id\nex: room_1"
 

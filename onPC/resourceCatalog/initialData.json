@@ -21,7 +21,7 @@
             {"minHum": "0.0",
             "minTemp": "0.0",
             "maxHum": "40.0",
-            "maxTemp": "23.0"},
+            "maxTemp": "25.0"},
         "thingspeak":
             {"readApiKey": "2DGGY3FYV3YM17W2",
             "writeApiKey": "TN1BC2E60X1WKNBU",
