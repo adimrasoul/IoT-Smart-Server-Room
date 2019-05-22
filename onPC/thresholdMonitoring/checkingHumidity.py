@@ -11,20 +11,15 @@ class checkingHumidity(object):
     def __init__(self, url, roomId, client):
         self.urlResource = url
         self.roomId = roomId
-        #self.temperature = 0.00
         #self.humidity = 0.00
-        #self.maxTemp = 0.00
         #self.maxHum = 0.00
-        #self.minTemp = 0.00
         #self.minHum = 0.00
         self.client = client
     def loadFile(self):
         try:
             # sending the request to the resource catalog to get the MQTT to webService url
             respond = requests.get(self.urlResource + "/realTimeData")
-            #print(self.urlResource)
             jsonFormat = json.loads(respond.text)
-            #print('o')
             self.restURL = jsonFormat["ip"]
             self.port = jsonFormat["port"]
         except :
@@ -39,7 +34,7 @@ class checkingHumidity(object):
         except :
             print("* CheckingThreshold: ERROR IN CONNECTING TO THE SERVER FOR READING initial_data.JSON *")
         return
-    def gettingTempHum(self):
+    def gettingHum(self):
         # sending request to the MQTT To WebService to get the current value for temperature and humidity
         try:
             self.humidity = requests.get("http://" + self.restURL + ":" + self.port + "/" + self.roomId + "/hum").content
@@ -87,8 +82,8 @@ class checkingHumidity(object):
         # this function will publish the order to AC
         try:
             print(self.orderMsg)
-            print(self.acOrder)
-            self.client.publish(self.acOrder, str(self.orderMsg))#, qos=1)
+            print(self.dehumOrder)
+            self.client.publish(self.dehumOrder, str(self.orderMsg))#, qos=1)
             return("published: ", self.orderMsg)
         except:
             getTime = datetime.datetime.now()
@@ -116,7 +111,7 @@ if __name__ == '__main__':
     # sensing the data from the sensors
     while True:
         sens.loadFile()
-        sens.gettingTempHum()
+        sens.gettingHum()
         sens.checkThresholds()
         # sending request to resource catalog to get the broker ip
         try:
