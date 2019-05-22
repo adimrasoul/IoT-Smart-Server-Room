@@ -39,7 +39,7 @@ class PublishDataTS(object):
         motion = message["motion"]
         dehum = message["dehumStatus"]
         smoke = message["smoke"]
-        print("To thingspeak: ", temperature, humidity)
+        print("To thingspeak: ", temperature, humidity, status, motion, dehum, smoke)
         # build the payload string
         payload = str("&field1=" + str(temperature) + "&field2=" + str(humidity) + "&field3=" + str(result) + "&field4=" + str(motion) + "&field5=" + str(smoke) + "&field6=" + str(dehum))
         # attempt to publish this data to the topic
