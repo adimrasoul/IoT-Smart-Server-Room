@@ -36,16 +36,12 @@ class PublishDataTS(object):
             result = 1
         else:
             result = 0
-        motion = int(message["motion"])
-        if (motion == 1):
-            result2 = 1
-        else:
-            result2 = 0
-        dehum = int(message["dehumStatus"])
+        motion = message["motion"]
+        dehum = message["dehumStatus"]
         smoke = message["smoke"]
         print("To thingspeak: ", temperature, humidity)
         # build the payload string
-        payload = str("&field1=" + str(temperature) + "&field2=" + str(humidity) + "&field3=" + str(result) + "&field4=" + str(result2) + "&field5=" + str(smoke) + "&field6=" + str(dehum))
+        payload = str("&field1=" + str(temperature) + "&field2=" + str(humidity) + "&field3=" + str(result) + "&field4=" + str(motion) + "&field5=" + str(smoke) + "&field6=" + str(dehum))
         # attempt to publish this data to the topic
         try:
             self.client.publish(self.topic, payload)
