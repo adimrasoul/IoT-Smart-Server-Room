@@ -83,5 +83,5 @@ if __name__ == '__main__':
         print("PublishData: ERROR IN CONNECTING TO THE BROKER")
 
     while True:
-        sens.publishSmokeData
+        sens.publishSmokeData()
         time.sleep(30)
