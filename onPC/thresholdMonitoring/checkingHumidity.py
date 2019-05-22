@@ -32,12 +32,9 @@ class checkingHumidity(object):
         try:
             # sending the request to the resource catalog to get the threshold values for the specified room
             respond = requests.get(self.urlResource + "/" + self.roomId)
-            #print('o')
             jsonFormat = json.loads(respond.text)
-            self.acOrder = jsonFormat["topic"]["acOrder"]
-            #self.maxTemp = jsonFormat["thresholds"]["maxTemp"]
+            self.dehumOrder = jsonFormat["topic"]["dehumOrder"]
             self.maxHum = jsonFormat["thresholds"]["maxHum"]
-            #self.minTemp = jsonFormat["thresholds"]["minTemp"]
             self.minHum = jsonFormat["thresholds"]["minHum"]
         except :
             print("* CheckingThreshold: ERROR IN CONNECTING TO THE SERVER FOR READING initial_data.JSON *")
@@ -45,19 +42,14 @@ class checkingHumidity(object):
     def gettingTempHum(self):
         # sending request to the MQTT To WebService to get the current value for temperature and humidity
         try:
-            #self.temperature = requests.get("http://" + self.restURL + ":" + self.port + "/" + self.roomId + "/temp").content
             self.humidity = requests.get("http://" + self.restURL + ":" + self.port + "/" + self.roomId + "/hum").content
-            #print("real time data", self.temperature, self.humidity)
             print("real time data", self.humidity)
         except:
             print("* CheckingThreshold: ERROR IN GETTING DATA FROM WEB SERVICE *")
         return
     def checkThresholds(self):
         # check the current values with the thresholds
-        #temperature = float(self.temperature)
         humidity = float(self.humidity)
-        #if (temperature > float(self.maxTemp)) or (temperature < float(self.minTemp)) or (humidity > float(self.maxHum)) or (humidity < float(self.minHum)):
-        #if (temperature > float(self.maxTemp)) or (humidity > float(self.maxHum)) or (humidity < float(self.minHum)):
         if ((humidity > float(self.maxHum)) or (humidity < float(self.minHum))):
             # set the publisher message for turning on the A/C
             self.order = "turnOn"
