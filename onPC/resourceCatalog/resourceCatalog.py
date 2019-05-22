@@ -51,6 +51,8 @@ class resourceCatalog(object):
             elif key == 'topic':
                 iniData[item]['topic']['acTopic'] = newData['topic']['acTopic']
                 iniData[item]['topic']['dhtTopic'] = newData['topic']['dhtTopic']
+                iniData[item]['topic']['dehumTopic'] = newData['topic']['dehumTopic']
+                iniData[item]['topic']['dehumOrder'] = newData['topic']['dehumOrder']
                 iniData[item]['topic']['acOrder'] = newData['topic']['acOrder']
                 iniData[item]['topic']['motionTopic'] = newData['topic']['motionTopic']
             elif key == 'broker':
@@ -59,7 +61,7 @@ class resourceCatalog(object):
             elif key == 'telegram':
                 iniData['telegram']['port'] = newData['telegram']['port']
                 iniData['telegram']['chatId'] = newData['telegram']['chatId']
-            elif key == 'dataToRest':
+            elif key == 'realTimeData':
                 iniData['realTimeData']['ip'] = newData['realTimeData']['ip']
                 iniData['realTimeData']['port'] = newData['realTimeData']['port']
         else:
@@ -71,7 +73,7 @@ class resourceCatalog(object):
             if key == 'thingspeak':
                 temporaryJson["thingspeak"] = {"readApiKey": newData['thingspeak']['readApiKey'], "writeApiKey": newData['thingspeak']['writeApiKey'], "channelId": newData['thingspeak']['channelId'], "wsPort": newData['thingspeak']['wsPort'], "mqttBroker": newData['thingspeak']['mqttBroker'], "mqttPort": newData['thingspeak']['mqttPort']}
             if key == 'topic':
-                temporaryJson["topic"] = {"acTopic": newData['topic']['acTopic'], "dhtTopic": newData['topic']['dhtTopic'], "acOrder": newData['topic']['acOrder'], "motionTopic": newData['topic']['motionTopic']}
+                temporaryJson["topic"] = {"acTopic": newData['topic']['acTopic'], 'dehumTopic':newData['topic']['dehumTopic'], 'dehumOrder':newData['topic']['dehumOrder'], "dhtTopic": newData['topic']['dhtTopic'], "acOrder": newData['topic']['acOrder'], "motionTopic": newData['topic']['motionTopic']}
             iniData[item] = temporaryJson
             # updating the json file
         try:
