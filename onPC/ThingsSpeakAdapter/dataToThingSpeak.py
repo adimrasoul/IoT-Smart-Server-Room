@@ -27,12 +27,9 @@ class PublishDataTS(object):
         self.topic = str("channels/" + self.channelId + "/publish/" + self.writeApiKey)
         print ("ThingSpesk: THINGSPEAK VARIABLES ARE READY")
         return
-    def sendingDhtData(self, message):
-        print(message)
+    def sendingData(self, message):
         temperature = message['temp']
-        print(temperature)
         humidity = message["hum"]
-        print(humidity)
         status = message["acStatus"]
         print(status)
         if (status == "ON"):
@@ -44,9 +41,11 @@ class PublishDataTS(object):
             result2 = 1
         else:
             result2 = 0
+        dehum = int(message["dehumStatus"])
+        smoke = message["smoke"]
         print("To thingspeak: ", temperature, humidity)
         # build the payload string
-        payload = str("&field1=" + str(temperature) + "&field2=" + str(humidity) + "&field3=" + str(result) + "&field4=" + str(result2))
+        payload = str("&field1=" + str(temperature) + "&field2=" + str(humidity) + "&field3=" + str(result) + "&field4=" + str(result2) + "&field5=" + str(smoke) + "&field6=" + str(dehum))
         # attempt to publish this data to the topic
         try:
             self.client.publish(self.topic, payload)
@@ -145,7 +144,7 @@ if __name__ == '__main__':
             #client.connect(brokerIp,1883,80)
             #client.loop_start()
             #sens.setThingSpeakVariables()
-            sens.sendingDhtData(RTDjsonFormat)
+            sens.sendingData(RTDjsonFormat)
             #sens.acStatus(RTDjsonFormat)
             #sens.sendingMotionData(RTDjsonFormat)
         except:
