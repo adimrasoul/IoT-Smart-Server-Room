@@ -11,8 +11,6 @@ class PublishDataTS(object):
     def __init__(self,url,client):
         self.url = url
         self.client = client
-#        self.client.on_subscribe = self.on_subscribe
-#        self.client.on_message = self.on_message
     def setThingSpeakVariables(self):
         # request the thingspeak variables related the roomId, from the resource catalog
         try:
@@ -23,7 +21,7 @@ class PublishDataTS(object):
         json_format = json.loads(respond.text)
         self.writeApiKey = json_format["thingspeak"]["writeApiKey"]
         self.channelId = json_format["thingspeak"]["channelId"]
-        # Create the topic string
+        # create the topic string
         self.topic = str("channels/" + self.channelId + "/publish/" + self.writeApiKey)
         print ("ThingSpesk: THINGSPEAK VARIABLES ARE READY")
         return
@@ -48,34 +46,6 @@ class PublishDataTS(object):
         except:
             print("* ThingSpeak: ERROR IN PUBLISHING THE HUM AND TEMP TO THINGSPEAK *")
         return
-    # def acStatus(self, order):
-    #     status = order["acStatus"]
-    #     if(status == "ON"):
-    #         result = 1
-    #     if(status == "OFF"):
-    #         result = 0
-    #     # build the payload string
-    #     print("To thingspeak: ", result)
-    #     self.setThingSpeakVariables()
-    #     payload = str("&field3=" + str(result))
-    #     # attempt to publish this data to the topic
-    #     try:
-    #         self.client.publish(self.topic, payload)
-    #     except:
-    #         print("* ThingSpeak: ERROR IN PUBLISHING THE AIR CONDITION STATUS TO THINGSPEAK *")
-    #     return
-#     def sendingMotionData(self, message):
-#         motion = message["motion"]
-#         print("To thingspeak: ", motion)
-# #        print ('Temp: {0:0.1f} C  Humidity: {1:0.1f} %'.format(temperature, humidity))
-#         # build the payload string
-#         payload = str("&field4=" + str(motion))
-#         # attempt to publish this data to the topic
-#         try:
-#             self.client.publish(self.topic, payload)
-#         except:
-#             print("* ThingSpeak: ERROR IN PUBLISHING THE HUM AND TEMP TO THINGSPEAK *")
-#         return
 
     
 if __name__ == '__main__':
@@ -91,7 +61,7 @@ if __name__ == '__main__':
     resourceCatalogIP = configJson["resourceCatalog"]["url"]
     roomId = configJson["resourceCatalog"]["roomId"]
     url = resourceCatalogIP + roomId
-    # reding from the resourceCatalog (Web Service) the real time data IP
+    # reading from the resourceCatalog (Web Service) the real time data IP
     respond = requests.get(resourceCatalogIP + "realTimeData")    
     jsonFormat = json.loads(respond.text)
     realTimeDataIp = jsonFormat["ip"]
@@ -103,14 +73,12 @@ if __name__ == '__main__':
     #create an object from PublishDataTS
     sens = PublishDataTS(url, client)
     # getting all info about the room we are interested in
-    #respond = requests.get(resourceCatalogIP + "room1")
     respond = requests.get(resourceCatalogIP + str(roomId))
     jsonFormat = json.loads(respond.text)
     # 'mqtt.thingspeak.com' - broker used to publish data on ThingSpeak
     brokerIp = jsonFormat["thingspeak"]["mqttBroker"] 
     wsPort = int(jsonFormat["thingspeak"]["wsPort"])
     mqttPort = int(jsonFormat["thingspeak"]["mqttPort"])
-    print(brokerIp)        
     # connecting to the broker
     client.connect(brokerIp,mqttPort,wsPort)
     client.loop_start()
@@ -118,31 +86,15 @@ if __name__ == '__main__':
     sens.setThingSpeakVariables()
     while True:
         try:
-            # send the request to ge the broker ip 
-            #modificare resource catalog
-#            respond = requests.get(resourceCatalogIP + "room1")
-#            jsonFormat = json.loads(respond.text)
-#            # it is 'mqtt.thingspeak.com'
-#            brokerIp = jsonFormat["thingspeak"]["mqttHost"]         
-#           # brokerPort = json_format["port"]     
-            #configJson = json.loads(jsonString)  
-            #url = configJson["resourceCatalog"]["url"]  
             # reading the real time data for the given room
-            #respond = requests.get('http://' + realTimeDataUrl + "/room1/all")
             respond = requests.get('http://' + realTimeDataUrl + "/" + str(roomId) + "/all")
             RTDjsonFormat = json.loads(respond.text)
-            #print(RTDjsonFormat)
             print("SubscribeDataTS: BROKER VARIABLES ARE READY")
         except:
             print("* SubscribeDataTS: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS *")
         try:
-            # connecting to the broker
-            #client.connect(brokerIp,1883,80)
-            #client.loop_start()
-            #sens.setThingSpeakVariables()
+            # function that will send data to ThingSpeak
             sens.sendingData(RTDjsonFormat)
-            #sens.acStatus(RTDjsonFormat)
-            #sens.sendingMotionData(RTDjsonFormat)
         except:
             print ("* SubscribeDataTS: PROBLEM IN CONNECTING TO THE BROKER *")
         time.sleep(30) 
