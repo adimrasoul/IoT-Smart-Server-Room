@@ -12,19 +12,14 @@ class checkingThreshold(object):
         self.urlResource = url
         self.roomId = roomId
         # self.temperature = 0.00
-        # self.humidity = 0.00
         # self.maxTemp = 0.00
-        # self.maxHum = 0.00
         # self.minTemp = 0.00
-        # self.minHum = 0.00
         self.client = client
     def loadFile(self):
         try:
             # sending the request to the resource catalog to get the MQTT to webService url
             respond = requests.get(self.urlResource + "/realTimeData")
-            #print(self.urlResource)
             jsonFormat = json.loads(respond.text)
-            #print('o')
             self.restURL = jsonFormat["ip"]
             self.port = jsonFormat["port"]
         except :
@@ -32,13 +27,10 @@ class checkingThreshold(object):
         try:
             # sending the request to the resource catalog to get the threshold values for the specified room
             respond = requests.get(self.urlResource + "/" + self.roomId)
-            #print('o')
             jsonFormat = json.loads(respond.text)
             self.acOrder = jsonFormat["topic"]["acOrder"]
             self.maxTemp = jsonFormat["thresholds"]["maxTemp"]
-            #self.maxHum = jsonFormat["thresholds"]["maxHum"]
             self.minTemp = jsonFormat["thresholds"]["minTemp"]
-            #self.minHum = jsonFormat["thresholds"]["minHum"]
         except :
             print("* CheckingThreshold: ERROR IN CONNECTING TO THE SERVER FOR READING initial_data.JSON *")
         return
@@ -54,9 +46,6 @@ class checkingThreshold(object):
     def checkThresholds(self):
         # check the current values with the thresholds
         temperature = float(self.temperature)
-        #humidity = float(self.humidity)
-        #if (temperature > float(self.maxTemp)) or (temperature < float(self.minTemp)) or (humidity > float(self.maxHum)) or (humidity < float(self.minHum)):
-        #if (temperature > float(self.maxTemp)) or (humidity > float(self.maxHum)) or (humidity < float(self.minHum)):
         if (temperature > float(self.maxTemp)):
             #set the publisher message for turning on the A/C
             self.order = "turnOn"
