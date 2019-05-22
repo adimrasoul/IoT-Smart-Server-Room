@@ -1,4 +1,4 @@
-from TempandHumidity import DHT11_Reader
+from Temp_Humidity_Sensor import DHT11_Reader
 import paho.mqtt.client as mqttc
 import time
 import datetime
@@ -18,7 +18,7 @@ class PublishData(object):
         try:
             self.respond = requests.get(self.url)
             json_format = json.loads(self.respond.text)
-            self.DHT_Topic = json_format["topic"]["dataCenter/room1/tempHum"]
+            self.DHT_Topic = json_format["topic"]["DHT_Topic"]
             print("PublishData:: BROKER VARIABLES ARE READY")
         except:
             print("PublishData: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
@@ -45,13 +45,14 @@ class PublishData(object):
     def publish_sensor_data(self):
         #This function will publish the data related to temperature and humidity
         try:
-            json_format = self.sensor_t_h.sensorData()
-            temp_hum_data = json.loads(json_format)
-            temp = temp_hum_data["temperature"]
-            hum = temp_hum_data["humidity"]
-            time = temp_hum_data["time"]
-            new_json_format=json.dumps({"subject":"temp_hum_data","roomId":self.roomId,"temperature": temp, "humidity": hum,"time":time})
-            msg_info = client.publish(self.DHT_Topic, str(new_json_format), qos=1)
+            inputJsonFromTHSensor = self.sensor_t_h.sensorData()
+            inputData = json.loads(inputJsonFromTHSensor)
+            temp = inputData["temperature"]
+            hum = inputData["humidity"]
+            time1 = inputData["time"]
+
+            outputJson=json.dumps({"subject":"temp_hum_data","roomId":self.roomId, "temperature": temp, "humidity": hum, "time":time1})
+            msg_info = client.publish(self.DHT_Topic, str(outputJson), qos=1)
             if msg_info.is_published() == True:
                 print ("\nMessage is published.")
             # This call will block until the message is published

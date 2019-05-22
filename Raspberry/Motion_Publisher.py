@@ -1,4 +1,4 @@
-from TempandHumidity import DHT11_Reader
+from Motion_Sensor import MotionDetection
 import paho.mqtt.client as mqttc
 import time
 import datetime
@@ -18,7 +18,7 @@ class PublishData(object):
         try:
             self.respond = requests.get(self.url)
             json_format = json.loads(self.respond.text)
-            self.DHT_Topic = json_format["topic"]["DHT_Topic"]
+            self.motion_Topic = json_format["topic"]["motionTopic"]
             print("PublishData:: BROKER VARIABLES ARE READY")
         except:
             print("PublishData: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
@@ -45,17 +45,17 @@ class PublishData(object):
     def publish_sensor_data(self):
         #This function will publish the data related to temperature and humidity
         try:
-            json_format = self.sensor_t_h.sensorData()
-            temp_hum_data = json.loads(json_format)
-            temp = temp_hum_data["temperature"]
-            hum = temp_hum_data["humidity"]
-            time = temp_hum_data["time"]
-            new_json_format=json.dumps({"subject":"temp_hum_data","roomId":self.roomId,"temperature": temp, "humidity": hum,"time":time})
-            msg_info = client.publish(self.DHT_Topic, str(new_json_format), qos=1)
-            if msg_info.is_published() == True:
-                print ("\nMessage is published.")
+            inputJsonFromTHSensor = self.sensor_t_h.sensemotion()
+            inputData = json.loads(inputJsonFromTHSensor)
+            motionDetection = inputData["Motion_Detection"]
+            print("TRACE CHECK- PUBLISH SENSOR DATA: ",motionDetection)
+            outputJson=json.dumps({"subject":"motion_data", "roomId":self.roomId, "Motion_Detection": motionDetection})
+            msg_info = client.publish(self.motion_Topic, str(outputJson), qos=1)
+            print("\nMessage is published.")
+            #if msg_info.is_published() == True:
+            #    print ("\nMessage is published.")
             # This call will block until the message is published
-            msg_info.wait_for_publish()
+            #msg_info.wait_for_publish()
             return ("HELLO", json_format)
         except:
             get_time = datetime.datetime.now()
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     url = resourceCatalogIP + roomId
     try:
         # create an object from ReadingDHT class
-        sensor_data = DHT11_Reader()
+        sensor_data = MotionDetection()
     except:
         print("PublishData: ERROR IN GETTING DATA FROM SENSOR ")
 
@@ -91,10 +91,10 @@ if __name__ == '__main__':
         sens.load_topics()
         try:
             #requesting the vroker info from resource catalog
-            respond = requests.get(resourceCatalogIP+"/broker")
+            respond = requests.get(resourceCatalogIP+"broker")
             json_format = json.loads(respond.text)
-            broker_ip = json_format["Broker_IP"]
-            port = json_format["Broker_port"]
+            broker_ip = json_format["ip"]
+            port = json_format["port"]
         except:
             print("PublishData: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER IP")
 

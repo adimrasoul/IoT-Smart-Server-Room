@@ -25,7 +25,6 @@ class DHT11_Reader(object):
             print('Time: ',current_time,'Temp: {0:0.1f} C  Humidity: {1:0.1f} %'.format(self.temperature, self.humidity))
             "put all the data in a Json"
             OutputJson = json.dumps({"temperature": self.temperature, "humidity": self.humidity ,"time":current_time})
-
             return OutputJson
         else:
             print('ReadingDHT: ERROR IN SENDING JSON')
@@ -36,4 +35,4 @@ if __name__ == '__main__':
     "this is for testing we use this class in the PublishTempHum class"
     data_of_DHT = DHT11_Reader()
     while True:
-        data_of_DHT.sensorData()
+    	data_of_DHT.sensorData()
