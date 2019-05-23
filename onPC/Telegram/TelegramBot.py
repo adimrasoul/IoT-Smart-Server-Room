@@ -7,7 +7,7 @@ class telegramBot(object):
     def __init__(self,url,port):
         self.url = url
     def setWebServiceVariables(self):
-        # reading real time data ip
+        # reading real time data ip and port
         try:
             respond = requests.get(self.url+"realTimeData")
         except:
@@ -18,6 +18,7 @@ class telegramBot(object):
         self.port = json_format["port"]
         print ("TelegramBot: RESTFUL ARE READY")
     def handler(self, msg):
+        # getting the information from the received message
         chat_id = msg['chat']['id']
         command = msg['text']
         self.setWebServiceVariables()
@@ -74,7 +75,7 @@ if __name__ == '__main__':
             telegram_bot.handler(msg)
         bot = telepot.Bot(port)
         bot.message_loop(handle)
-        print('I am listening...')
+        print('Listening')
     except:
         print("TelegramBot: ERROR IN CONNECTING TO THE TELEGRAM BOT")
     while 1:

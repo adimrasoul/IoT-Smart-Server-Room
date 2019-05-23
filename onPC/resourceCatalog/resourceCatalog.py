@@ -1,4 +1,4 @@
-# resource catalog web service: exposing the data to others by GET; the web page can update it by POST
+# resource catalog web service: exposing the data to others by GET; the web page can be updated by POST
 
 import cherrypy
 import json
@@ -6,7 +6,7 @@ import json
 class resourceCatalog(object):
     exposed = True
     def __init__(self):
-        # reading the file
+        # reading the file with the informations
         try:
             file = open("initialData.json", "r")
             self.jsonString = file.read()
@@ -15,7 +15,7 @@ class resourceCatalog(object):
             raise KeyError("* resourceCatalog: ERROR IN READING initialData.json *")
         self.jsonDic = json.loads(self.jsonString)
     def GET(self, *uri, **params):
-        # item will contain the requeste information
+        # item will contain the request information
         item = uri[0]
         if(item in self.jsonDic):
             result = self.jsonDic[item]
@@ -31,7 +31,7 @@ class resourceCatalog(object):
         # data to insert/modifiy
         data = cherrypy.request.body.read()
         newData = json.loads(data)
-        # item will contain the requeste information
+        # item will contain the request information
         item = uri[0]
         # updating the initial file by using the data coming from the web page
         if (item in iniData):
@@ -85,7 +85,7 @@ class resourceCatalog(object):
             return "Problem in updating file *"
 
 if __name__ == '__main__':
-    # read the config file to set the url and the port on which expose the web service
+    # reading the config file to set the url and the port on which expose the web service
     file = open("configFile.json", "r")
     jsonString = file.read()
     file.close()

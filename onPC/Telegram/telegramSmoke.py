@@ -17,7 +17,7 @@ class telegramAlarm(object):
             realTimeData = requests.get(self.urlRealTime + "/all")
             jsonFormatDue = json.loads(realTimeData.text)
         except:
-            print("* ERROR IN CONNECTING TO REAL TIME DATA WEB SERVICE *")
+            print("* telegramSmoke: ERROR IN CONNECTING TO REAL TIME DATA WEB SERVICE *")
         self.value = jsonFormatDue[self.roomId]['smoke']
         # if the previous value of the motion sensor was different from the actual, send a message
         if (int(self.value) > 80):
@@ -36,7 +36,7 @@ if __name__ == '__main__':
         jsonString = file.read()
         file.close()
     except:
-        raise KeyError("* DataWithRest: ERROR IN READING CONFIG FILE *")
+        raise KeyError("* telegramSmoke: ERROR IN READING CONFIG FILE *")
     configJson = json.loads(jsonString)
     url = configJson["resourceCatalog"]["url"]
     roomId = configJson["resourceCatalog"]["roomId"]
@@ -45,7 +45,7 @@ if __name__ == '__main__':
         respond = requests.get(url + "all")
         jsonFormat = json.loads(respond.text)
     except:
-        print("* ERROR IN CONNECTING TO RSOURCE CATALOG WEB SERVICE *")
+        print("* telegramSmoke: ERROR IN CONNECTING TO RESOURCE CATALOG WEB SERVICE *")
     port = jsonFormat['telegram']["port"]
     chatId = jsonFormat['telegram']["chatId"]
     urlRealTime = 'http://' + jsonFormat['realTimeData']['ip'] + ':' + jsonFormat['realTimeData']['port']

@@ -18,7 +18,7 @@
             "motionTopic": "dataCenter/room1/motion",
             "smokeTopic":  "dataCenter/room1/smoke"},
         "thresholds":
-            {"minHum": "0.0",
+            {"minHum": "10.0",
             "minTemp": "0.0",
             "maxHum": "40.0",
             "maxTemp": "25.0"},
@@ -28,8 +28,8 @@
             "channelId": "765853",
             "wsPort": "80",
             "mqttBroker": "mqtt.thingspeak.com",
-            "mqttPort": "1883"},
-        "id": 3},
+            "mqttPort": "1883"}
+        },
     "room2":
         {"topic":
             {"acTopic": "dataCenter/room2/acStatus",
@@ -52,6 +52,6 @@
             "channelId": "765853",
             "wsPort": "80",
             "mqttBroker": "mqtt.thingspeak.com",
-            "mqttPort": "1883"},
-        "id": 3}
+            "mqttPort": "1883"}
         }
+}

@@ -1,4 +1,5 @@
-# MQTT client that will subscribe to real time data from the broker and write the received data into a json file
+# MQTT client that will subscribe to real time data sent on the broker from the Raspberry
+# and that will write the received data into a .json file
 
 import datetime
 import paho.mqtt.client as mqtt
@@ -8,25 +9,24 @@ import json
 class subscribeData(object):
     def __init__(self, client):
         self.client = client
+        # assigning callbacks
         client.on_subscribe = self.on_subscribe
         client.on_message = self.on_message
+    # defining callbacks
     @staticmethod
     def on_subscribe(client, userdata, mid, granted_qos):
         getTime = datetime.datetime.now()
-        currentTime =  getTime.strftime("%Y-%m-%d %H:%M:%S")
-        print("Subscribed: " + str(mid) + " " + str(granted_qos))
-        print("at time: " + str(currentTime))
+        currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
+        print("Subscribed at time: " + str(currentTime))
     @classmethod
     def on_message(self, client, userdata, msg):
-        # the received message is in json format
-        # printing the current time
+        messageBody = str(msg.payload.decode("utf-8"))
         getTime = datetime.datetime.now()
         currentTime =  getTime.strftime("%Y-%m-%d %H:%M:%S")
-        print("message received ", str(msg.payload.decode("utf-8")))
+        print("message received: ", messageBody)
         print("at time: " + str(currentTime))
         print("--------------------------------------------------------------------")
-        messageBody = str(msg.payload.decode("utf-8"))
-        # readng the file with real time data
+        # reading the file with real time data
         try:
             file = open("realTimeData.json", "r")
             jsonString = file.read()
@@ -97,7 +97,7 @@ class subscribeData(object):
                 temporaryJson["motion"] = "0"
                 temporaryJson["smoke"] = receivedInfo["value"]
                 actualInfoOnFile[rommId] = temporaryJson
-        # write the data into the file
+        # writing the new data into the file
         try:
             jsonDataFile = open("realTimeData.json", 'w')
             json.dump(actualInfoOnFile, jsonDataFile)
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     client = mqtt.Client()
     sens = subscribeData(client)
     while True:
-        # sending the request to the resource catolog to set the broker ip and topics
+        # sending the request to the resource catalog to set the broker ip
         try:
             respond = requests.get(url + "/broker")
             jsonFormat = json.loads(respond.text)

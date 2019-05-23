@@ -53,7 +53,7 @@ if __name__ == '__main__':
     configJson = json.loads(jsonString)
     url = configJson["resourceCatalog"]["url"]
     roomId = configJson["resourceCatalog"]["roomId"]
-    # sending a request to the resource catolog to get info on the telegram bot and the url with the real time data
+    # sending a request to the resource catalog to get info on the telegram bot and the url with the real time data
     try:
         respond = requests.get(url+"all")
         jsonFormat = json.loads(respond.text)

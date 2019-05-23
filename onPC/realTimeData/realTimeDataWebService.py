@@ -1,4 +1,4 @@
-# web service that reads the real time data and expose it on the given url
+# web service that reads the real time data from the .json file and expose it
 
 import cherrypy
 import json
@@ -7,18 +7,19 @@ import requests
 class realTimeDataWebService(object):
     exposed = True
     def GET(self, *uri, **params):
-        # reading the real time data file when it recives the request
+        # reading the real time data file when it receives the request
         try:
             file = open("realTimeData.json", "r")
             jsonString = file.read()
             item = uri[0]
             file.close()
         except:
-            raise KeyError("* DataWithRest: ERROR IN READING JSON FILE RELATED TO DATA *")
+            raise KeyError("* RealTimeData: ERROR IN READING JSON FILE RELATED TO DATA *")
         results = json.loads(jsonString)
-        # if the item exist inside the json file, it will return the asked data
+        # if the first parameter of the url is all, returns all data
         if (item == "all"):
             return jsonString
+        # otherwise, it returns the data of a specific room
         if (item in results):
             if (uri[1] == 'temp'):
                 return str(results[item]['temp'])
@@ -34,30 +35,28 @@ class realTimeDataWebService(object):
                 return str(results[item]['motion'])
             elif (uri[1] == 'all'):
                 return str(json.dumps(results[item]))
-        # if the item does not exist, returns a warning
         else:
             return "Nothing found, check the input again"
 
 if __name__ == '__main__':
-    # reading the resource catalog url from the json file
+    # reading the resource catalog url from the configuration  file
     try:
         file = open("configFile.json", "r")
         jsonString = file.read()
         file.close()
     except:
-        raise KeyError("* realTimeData: ERROR IN READING CONFIG FILE *")
-    # sending request to the resource catalog to ask for the MQTT to web service URL
+        raise KeyError("* RealTimeData: ERROR IN READING CONFIG FILE *")
     configJson = json.loads(jsonString)
     url = configJson["resourceCatalog"]["url"]
+    # sending a request to the resource catalog to get the url on which the data will be published on
     respond = requests.get(url + "/realTimeData")
     jsonFormat = json.loads(respond.text)
-    # set the IP and the port that the mqtt to web service should expose the data on it
-    hostIP = jsonFormat["ip"]
+    ip = jsonFormat["ip"]
     port = jsonFormat["port"]
     # configuration for the web service
     conf = { '/': { 'request.dispatch': cherrypy.dispatch.MethodDispatcher(), 'tools.sessions.on': True } }
     # building the web service
     cherrypy.tree.mount(realTimeDataWebService(), '/', conf)
-    cherrypy.config.update({"server.socket_host": str(hostIP), "server.socket_port": int(port)})
+    cherrypy.config.update({"server.socket_host": str(ip), "server.socket_port": int(port)})
     cherrypy.engine.start()
     cherrypy.engine.block()
