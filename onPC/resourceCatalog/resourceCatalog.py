@@ -3,8 +3,10 @@
 import cherrypy
 import json
 
+
 class resourceCatalog(object):
     exposed = True
+
     def __init__(self):
         # reading the file
         try:
@@ -14,17 +16,19 @@ class resourceCatalog(object):
         except:
             raise KeyError("* resourceCatalog: ERROR IN READING initialData.json *")
         self.jsonDic = json.loads(self.jsonString)
+
     def GET(self, *uri, **params):
         # item will contain the requeste information
         item = uri[0]
-        if(item in self.jsonDic):
+        if item in self.jsonDic:
             result = self.jsonDic[item]
             requestedData = json.dumps(result)
             return requestedData
-        elif(item == "all"):
+        elif item == "all":
             return self.jsonString
         else:
             return "* Nothing founded: MAKE SURE THAT YOU ARE SENDING THE RIGHT VALUE IN THE URL *"
+
     def POST(self, *uri, **params):
         # initial data in the resource catalog
         iniData = self.jsonDic
@@ -81,6 +85,7 @@ class resourceCatalog(object):
         except Exception as e:
             print ("* Error:",e)
             return "Problem in updating file *"
+
 
 if __name__ == '__main__':
     # read the config file to set the url and the port on which expose the web service
