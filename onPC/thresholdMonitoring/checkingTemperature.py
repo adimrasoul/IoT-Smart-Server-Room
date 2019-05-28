@@ -105,10 +105,6 @@ if __name__ == '__main__':
     sens = checkingThreshold(resourceCatalogIp, roomId, client)
     # sensing the data from the sensors
     while True:
-        sens.loadFile()
-        sens.gettingTempHum()
-        sens.checkThresholds()
-        # sending request to resource catalog to get the broker ip
         try:
             respond = requests.get(resourceCatalogIp + "/broker")
             jsonFormat = json.loads(respond.text)
@@ -123,5 +119,10 @@ if __name__ == '__main__':
             client.loop_start()
         except:
             print("* PublishData: ERROR IN CONNECTING TO THE BROKER *")
-        sens.publish_order()
-        time.sleep(10)
+        while True:
+            sens.loadFile()
+            sens.gettingTempHum()
+            sens.checkThresholds()
+            # sending request to resource catalog to get the broker ip
+            sens.publish_order()
+            time.sleep(10)
