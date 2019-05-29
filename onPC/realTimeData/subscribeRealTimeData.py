@@ -88,7 +88,7 @@ class subscribeData(object):
                 temporaryJson["motion"] = receivedInfo["motion"]
                 temporaryJson["smoke"] = "0"
                 actualInfoOnFile[rommId] = temporaryJson
-            elif (subject == "motion_data"):
+            elif (subject == "smoke"):
                 temporaryJson = {}
                 temporaryJson["temp"] = 0
                 temporaryJson["hum"] = 0
