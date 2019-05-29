@@ -57,7 +57,7 @@ class subscribeData(object):
                 temporaryJson["temp"] = receivedInfo["temperature"]
                 temporaryJson["hum"] = receivedInfo["humidity"]
                 temporaryJson["acStatus"] = "OFF"
-                temporaryJson["dehumSatus"] = '0'
+                temporaryJson["dehumSatus"] = 'OFF'
                 temporaryJson["motion"] = "0"
                 temporaryJson["smoke"] = "0"
                 actualInfoOnFile[rommId] = temporaryJson
@@ -66,7 +66,7 @@ class subscribeData(object):
                 temporaryJson["temp"] = 0
                 temporaryJson["hum"] = 0
                 temporaryJson["acStatus"] = receivedInfo["status"]
-                temporaryJson["dehumSatus"] = '0'
+                temporaryJson["dehumSatus"] = 'OFF'
                 temporaryJson["motion"] = "0"
                 temporaryJson["smoke"] = "0"
                 actualInfoOnFile[rommId] = temporaryJson
@@ -84,7 +84,7 @@ class subscribeData(object):
                 temporaryJson["temp"] = 0
                 temporaryJson["hum"] = 0
                 temporaryJson["acStatus"] = "OFF"
-                temporaryJson["dehumSatus"] = '0'
+                temporaryJson["dehumSatus"] = 'OFF'
                 temporaryJson["motion"] = receivedInfo["motion"]
                 temporaryJson["smoke"] = "0"
                 actualInfoOnFile[rommId] = temporaryJson
@@ -93,7 +93,7 @@ class subscribeData(object):
                 temporaryJson["temp"] = 0
                 temporaryJson["hum"] = 0
                 temporaryJson["acStatus"] = "OFF"
-                temporaryJson["dehumSatus"] = '0'
+                temporaryJson["dehumSatus"] = 'OFF'
                 temporaryJson["motion"] = "0"
                 temporaryJson["smoke"] = receivedInfo["value"]
                 actualInfoOnFile[rommId] = temporaryJson
