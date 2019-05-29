@@ -42,10 +42,10 @@ class subscribeData(object):
             if (subject == "temp_hum_data"):
                 actualInfoOnFile[rommId]["temp"] = receivedInfo["temperature"]
                 actualInfoOnFile[rommId]["hum"] = receivedInfo["humidity"]
-            elif (subject == "acStatus"):
-                actualInfoOnFile[rommId]["acStatus"] = receivedInfo["status"]
+            elif (subject == "Ac_Status"):
+                actualInfoOnFile[rommId]["acStatus"] = receivedInfo["Status"]
             elif (subject == "dehumStatus"):
-                actualInfoOnFile[rommId]["dehumStatus"] = receivedInfo["status"]
+                actualInfoOnFile[rommId]["dehumStatus"] = receivedInfo["Status"]
             elif (subject == "smoke"):
                 actualInfoOnFile[rommId]["smoke"] = receivedInfo["value"]
             elif (subject == "motion_data"):
@@ -61,7 +61,7 @@ class subscribeData(object):
                 temporaryJson["motion"] = "0"
                 temporaryJson["smoke"] = "0"
                 actualInfoOnFile[rommId] = temporaryJson
-            elif (subject == "acStatus"):
+            elif (subject == "Ac_Status"):
                 temporaryJson = {}
                 temporaryJson["temp"] = 0
                 temporaryJson["hum"] = 0

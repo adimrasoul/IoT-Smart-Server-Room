@@ -16,7 +16,7 @@ class telegramAlarm(object):
         except:
             print("* ERROR IN CONNECTING TO REAL TIME DATA WEB SERVICE *")
         self.oldStatus = jsonFormatDue[self.roomId]['motion']
-        print(self.oldStatus)
+        # print(self.oldStatus)
         return
     def checkValue(self):
         try:
@@ -26,13 +26,15 @@ class telegramAlarm(object):
         except:
             print("* ERROR IN CONNECTING TO REAL TIME DATA WEB SERVICE *")
         self.currentStatus = jsonFormatDue[self.roomId]['motion']
+        if (int(self.currentStatus) == 1):
+            s = "someone inside the room"
+        else:
+            s = "someone left the room"
         # if the previous value of the motion sensor was different from the actual, send a message
-        print('curr', self.currentStatus)
-        print('old', self.oldStatus)
         if (self.currentStatus != self.oldStatus):
-            sendText1 = 'https://api.telegram.org/bot' + port + '/sendMessage?chat_id=' + chatId + '&parse_mode=Markdown&text=' + 'ALERT'
+            sendText1 = 'https://api.telegram.org/bot' + port + '/sendMessage?chat_id=' + chatId + '&parse_mode=Markdown&text=' + 'ALERT!'
             sendText2 = 'https://api.telegram.org/bot' + port + '/sendMessage?chat_id=' + chatId + '&parse_mode=Markdown&text=' + 'change in motion status'
-            sendText3 = 'https://api.telegram.org/bot' + port + '/sendMessage?chat_id=' + chatId + '&parse_mode=Markdown&text=' + str(self.currentStatus)
+            sendText3 = 'https://api.telegram.org/bot' + port + '/sendMessage?chat_id=' + chatId + '&parse_mode=Markdown&text=' + str(s)
             response = requests.get(sendText1)
             response = requests.get(sendText2)
             response = requests.get(sendText3)

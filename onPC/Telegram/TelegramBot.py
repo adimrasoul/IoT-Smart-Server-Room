@@ -47,7 +47,7 @@ class telegramBot(object):
             outputString = 'Temperature: '+ str(temp) + '; humidity: ' + str(hum) +"; acStatus: "+str(staus) +"; motion:" + str(mot) + "; smoke:" + str(smoke) + "; dehumidificator:" + str(deh)
             #print(outputString)
         except:
-                return "Please enter the correct room id\nex: room_1"
+                return "Please enter the correct room id, like 'room1'"
 
         return str(outputString)
 
