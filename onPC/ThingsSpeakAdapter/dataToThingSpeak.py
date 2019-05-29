@@ -95,5 +95,5 @@ if __name__ == '__main__':
             # function that will send data to ThingSpeak
             sens.sendingData(RTDjsonFormat)
         except:
-            print ("* SubscribeDataTS: PROBLEM IN CONNECTING TO THE BROKER *")
+            print("* SubscribeDataTS: PROBLEM IN CONNECTING TO THE BROKER *")
         time.sleep(30) 
