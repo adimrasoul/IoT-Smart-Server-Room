@@ -64,7 +64,6 @@ class checkingThreshold(object):
         currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
         print('CONNACK received with code: ' + str(rc))
         print("at time: " + str(currentTime))
-        return str(rc)
     @classmethod
     def on_publish(cls, client, userdata, mid):
         # get the current time
@@ -73,7 +72,6 @@ class checkingThreshold(object):
         print("Published Message")
         print("at time: " + str(currentTime))
         print("--------------------------------------------------------------------")
-        return str(mid)
     def publishOrder(self):
         # this function will publish the order to AC
         try:
