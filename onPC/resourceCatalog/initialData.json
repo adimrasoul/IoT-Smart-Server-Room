@@ -13,7 +13,7 @@
             {"acTopic": "dataCenter/room1/acStatus",
              "dehumTopic": "dataCenter/room1/status",
              "dehumOrder": "dataCenter/room1/order",
-            "acOrder": "dataCenter/room1/acOrder",
+             "acOrder": "dataCenter/room1/acOrder",
             "dhtTopic": "dataCenter/room1/tempHum",
             "motionTopic": "dataCenter/room1/motion",
             "smokeTopic":  "dataCenter/room1/smoke"},
