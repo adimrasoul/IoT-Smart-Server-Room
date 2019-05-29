@@ -118,16 +118,16 @@ if __name__ == '__main__':
     topic = configJson["resourceCatalog"]["wildcard"]
     client = mqtt.Client()
     sens = subscribeData(client)
+    # sending the request to the resource catalog to set the broker ip
+    try:
+        respond = requests.get(url + "/broker")
+        jsonFormat = json.loads(respond.text)
+        brokerIP = jsonFormat["ip"]
+        brokerPort = jsonFormat["port"]
+        print("SubscribeData: BROKER VARIABLES ARE READY")
+    except:
+        print("* SubscribeData: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS *")
     while True:
-        # sending the request to the resource catalog to set the broker ip
-        try:
-            respond = requests.get(url + "/broker")
-            jsonFormat = json.loads(respond.text)
-            brokerIP = jsonFormat["ip"]
-            brokerPort = jsonFormat["port"]
-            print("SubscribeData: BROKER VARIABLES ARE READY")
-        except:
-            print("* SubscribeData: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS *")
         # connecting to the broker and subscribing to the topic
         try:
             client.connect(brokerIP, int(brokerPort))
