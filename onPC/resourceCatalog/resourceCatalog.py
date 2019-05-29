@@ -55,6 +55,7 @@ class resourceCatalog(object):
                 iniData[item]['topic']['dehumOrder'] = newData['topic']['dehumOrder']
                 iniData[item]['topic']['acOrder'] = newData['topic']['acOrder']
                 iniData[item]['topic']['motionTopic'] = newData['topic']['motionTopic']
+                iniData[item]['topic']['smokeTopic'] = newData['topic']['smokeTopic']
             elif key == 'broker':
                 iniData['broker']['ip'] = newData['broker']['ip']
                 iniData['broker']['port'] = newData['broker']['port']
