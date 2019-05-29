@@ -30,7 +30,7 @@ class MotionDetection(object):
             current_time = get_time.strftime("%Y-%m-%d %H:%M:%S")
             print('Time: ',current_time,'Motion Detection: ',self.detection)
             # put all the data in a Json
-            outputjson = json.dumps({"time": current_time,"Motion Detection": self.detection})
+            outputjson = json.dumps({"time": current_time,"Motion_Detection": self.detection})
             return outputjson
         else:
             print("ReadingMotionSensor ERROR IN SENDING JSON")
