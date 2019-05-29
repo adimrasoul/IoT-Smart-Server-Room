@@ -15,22 +15,21 @@ class SubscribeAcOrder(object):
         #self.flag = 0
         self.url =url
         self.room_Id = roomId
-        self.source = "AC"
+        self.source = "DEHUM"
         # create an object from LEDbyRlay class
         self.controlling_LED = LEDControl(url, roomId,self.source)
         self.client = client
         client.on_subscribe = self.on_subscribe
         client.on_message = self.on_message
-
     def load_topics(self):
 # sending request to get the topic by sending the room_id to the resource catalog
         try:
             self.respond = requests.get(self.url + self.room_Id)
             json_format = json.loads(self.respond.text)
-            self.AC_status = json_format["topic"]["acOrder"]
-            print("SubscribeAcOrder: Ac TOPIC ARE READY")
+            self.AC_status = json_format["topic"]["dehumOrder"]
+            print("SubscribeDehumOrder: Ac TOPIC ARE READY")
         except:
-            print("SubscribeAcOrder: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
+            print("SubscribeDehumOrder: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
 
     @staticmethod
     def on_subscribe(client, userdata, mid, granted_qos):
@@ -62,13 +61,12 @@ class SubscribeAcOrder(object):
                 self.controlling_LED.setup()
                 self.controlling_LED.LED_ON()
                 #self.flag = 1
-
             except:
-                print("SubscribeAcOrder: ERROR IN SENDING TURN ON ORDER TO RELAY")
+                print("SubscribeDehumOrder: ERROR IN SENDING TURN ON ORDER TO RELAY")
 
         elif self.orders == "turnOff":
              #and self.flag == 1:
-            print("Sending Turn off order")
+            print("Sending Turn off order To Dehum LED")
             try:
                 self.controlling_LED.setup()
                 self.controlling_LED.LED_OFF()
@@ -103,11 +101,12 @@ if __name__ == '__main__':
         Broker_Port = json_format["port"]
         print("SubscribeAcOrder:: BROKER VARIABLES ARE READY")
     except:
-        print("SubscribeAcOrder: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
+            print("SubscribeAcOrder: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
     try:
         client.connect(Broker_IP, int(Broker_Port))
-        client.subscribe(str(sens.AC_status), qos=1)# dataCenter/room1/order
         client.loop_start()
+        client.subscribe(str(sens.AC_status), qos=1)# dataCenter/room1/order
+
 
         while True:
             #client.subscribe("dataCenter/room1/#", qos=1)

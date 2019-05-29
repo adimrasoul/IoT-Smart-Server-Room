@@ -1,16 +1,15 @@
-from Smoke_Sensor import Smoke_Detection
+from Temp_Humidity_Sensor import DHT11_Reader
 import paho.mqtt.client as mqttc
 import time
 import datetime
 import requests
 import json
 
-
 class PublishData(object):
 
-    def __init__(self, url, sensor_s, roomId, client):
+    def __init__(self, url, sensor_t_h,roomId, client):
         self.url = url
-        self.sensor_s = sensor_s
+        self.sensor_t_h = sensor_t_h
         self.client = client
         self.roomId=roomId
 
@@ -19,9 +18,11 @@ class PublishData(object):
         try:
             self.respond = requests.get(self.url)
             json_format = json.loads(self.respond.text)
-            self.smokeTopic = json_format["topic"]["smokeTopic"]
+	   # print(json_format)
+            self.DHT_Topic = json_format["topic"]["dhtTopic"]
             print("PublishData:: BROKER VARIABLES ARE READY")
         except:
+	  #  print(json_format)
             print("PublishData: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
 
     @staticmethod
@@ -43,23 +44,28 @@ class PublishData(object):
         print("--------------------------------------------------------------------")
         return str(mid)
 
-    def publishSmokeData(self):
+    def publish_sensor_data(self):
         #This function will publish the data related to temperature and humidity
         try:
-            inputJsonFromSmokeSensor = self.sensor_s.senseSmoke()
-            inputData = json.loads(inputJsonFromSmokeSensor)
-            smokeValue = inputData["value"]
+            inputJsonFromTHSensor = self.sensor_t_h.sensorData()
+            inputData = json.loads(inputJsonFromTHSensor)
+            temp = inputData["temperature"]
+            hum = inputData["humidity"]
             time1 = inputData["time"]
-
-            jsonFormat = json.dumps({"subject": "smoke", "roomId": self.roomId, "value":smokeValue,"time":time1 })
-            msgInfo = client.publish(self.smokeTopic, str(jsonFormat))
-            print("Message published:", msgInfo)
-            return
+            print("TRACE CHECK- PUBLISH SENSOR DATA: ",temp,hum,time1)
+            outputJson=json.dumps({"subject":"temp_hum_data","roomId":self.roomId, "temperature": temp, "humidity": hum, "time":time1})
+            msg_info = client.publish(self.DHT_Topic, str(outputJson), qos=1)
+            print("\nMessage is published.")
+            #if msg_info.is_published() == True:
+            #    print ("\nMessage is published.")
+            # This call will block until the message is published
+            #msg_info.wait_for_publish()
+            return ("HELLO", json_format)
         except:
             get_time = datetime.datetime.now()
             current_time = get_time.strftime("%Y-%m-%d %H:%M:%S")
             print("PublishData: ERROR IN PUBLISHING DATA RELATED TO THE SENSORS")
-            print("at time: " + str(current_time))
+            print ("at time: " + str(current_time))
 
 
 if __name__ == '__main__':
@@ -76,10 +82,13 @@ if __name__ == '__main__':
     resourceCatalogIP = config_json["reSourceCatalog"]["url"]
     roomId = config_json["reSourceCatalog"]["roomId"]
     url = resourceCatalogIP + roomId
-
+   # print(url)
+   # xx=requests.get(url)
+   # print(xx)
     try:
         # create an object from ReadingDHT class
-        sensor_data = Smoke_Detection()
+        sensor_data = DHT11_Reader()
+	#print(sensor_data)
     except:
         print("PublishData: ERROR IN GETTING DATA FROM SENSOR ")
 
@@ -107,5 +116,5 @@ if __name__ == '__main__':
 
         while True:
             sens.load_topics()
-            sens.publishSmokeData()
+            sens.publish_sensor_data()
             time.sleep(30)

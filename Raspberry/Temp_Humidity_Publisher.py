@@ -110,4 +110,4 @@ if __name__ == '__main__':
         while True:
             sens.load_topics()
             sens.publish_sensor_data()
-            time.sleep(30)
+            time.sleep(5)

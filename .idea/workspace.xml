@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="8149ecb6-c8bd-4d8c-862e-7b59632750ac" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Raspberry/DEHUM_Subscriber.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/IoT Final Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IoT Final Project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Raspberry/AC_Subscriber.py" beforeDir="false" afterPath="$PROJECT_DIR$/Raspberry/AC_Subscriber.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Raspberry/LED_Control.py" beforeDir="false" afterPath="$PROJECT_DIR$/Raspberry/LED_Control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Raspberry/Temp_Humidity_Publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/Raspberry/Temp_Humidity_Publisher.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="IoT Final Project" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>PublishData: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS</find>
+      <find>LEDbyRelay</find>
+      <find>sens</find>
+      <find>AC_statu</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/Temp-Humid.py" />
+        <option value="$PROJECT_DIR$/ReadingDHT.py" />
+        <option value="$USER_HOME$/Downloads/Completed ICT Projects/Programming-for-IoT-applications-master/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/publish_hum_temp/ReadingDHT.py" />
+        <option value="$PROJECT_DIR$/Temp-Hum.py" />
+        <option value="$PROJECT_DIR$/Motion-Sensor.py" />
+        <option value="$PROJECT_DIR$/TempandHumidity.py" />
+        <option value="$PROJECT_DIR$/Reading_Sensors/TempandHumidity.py" />
+        <option value="$PROJECT_DIR$/Reading_Sensors/Motion-Sensor.py" />
+        <option value="$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_pc/MQTT_To_WebService/SubscribeData.py" />
+        <option value="$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/publish_hum_temp/PublishTempHum.py" />
+        <option value="$PROJECT_DIR$/Raspberry/TempHumPublisher.py" />
+        <option value="$PROJECT_DIR$/Raspberry/TempandHumidity.py" />
+        <option value="$PROJECT_DIR$/onPC/resourceCatalog/initialData.json" />
+        <option value="$PROJECT_DIR$/Raspberry/Temp_Humidity_Sensor.py" />
+        <option value="$PROJECT_DIR$/onPC/resourceCatalog/resourceCatalog.py" />
+        <option value="$PROJECT_DIR$/Test Files/Temp_Humidity_Publisher.py" />
+        <option value="$PROJECT_DIR$/Raspberry/Motion_Sensor.py" />
+        <option value="$PROJECT_DIR$/Raspberry/Motion_Publisher.py" />
+        <option value="$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/SubscribeAcOrder/SubscribeAcOrder.py" />
+        <option value="$PROJECT_DIR$/Raspberry/SubscribeAcOrder.py" />
+        <option value="$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/SubscribeAcOrder/PublishAcStatus.py" />
+        <option value="$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/SubscribeAcOrder/LEDbyRelay.py" />
+        <option value="$PROJECT_DIR$/Raspberry/Smoke_Sensor.py" />
+        <option value="$PROJECT_DIR$/Raspberry/Smoke_Publisher Antonio Version.py" />
+        <option value="$PROJECT_DIR$/Raspberry/Smoke_Publisher.py" />
+        <option value="$PROJECT_DIR$/Raspberry/LED_Control.py" />
+        <option value="$PROJECT_DIR$/onPC/resourceCatalog/configFile.json" />
+        <option value="$PROJECT_DIR$/Raspberry/AC_Subscriber.py" />
+        <option value="$PROJECT_DIR$/Raspberry/Temp_Humidity_Publisher.py" />
+        <option value="$PROJECT_DIR$/Raspberry/DEHUM_Subscriber.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="263" />
+    <option name="y" value="27" />
+    <option name="width" value="670" />
+    <option name="height" value="741" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/Completed ICT Projects/Sample/Programming-for-IoT-applications-master/Final_IoT_Project/Final_IoT_Project/Final Version" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Raspberry" />
+      <recent name="$USER_HOME$/Downloads" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Raspberry" />
+      <recent name="$PROJECT_DIR$/Test Files" />
+      <recent name="$PROJECT_DIR$/Reading_Sensors" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.DEHUM_Subscriber">
+    <configuration name="DEHUM_Subscriber" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="IoT Final Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Raspberry" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Raspberry/DEHUM_Subscriber.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="LED_Control" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="IoT Final Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Raspberry" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Raspberry/LED_Control.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Smoke_Sensor" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="IoT Final Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Raspberry" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Raspberry/Smoke_Sensor.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="SubscribeAcOrder (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="IoT Final Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Raspberry" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Raspberry/AC_Subscriber.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="resourceCatalog" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="IoT Final Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/onPC/resourceCatalog" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/onPC/resourceCatalog/resourceCatalog.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.DEHUM_Subscriber" />
+        <item itemvalue="Python.SubscribeAcOrder (1)" />
+        <item itemvalue="Python.resourceCatalog" />
+        <item itemvalue="Python.LED_Control" />
+        <item itemvalue="Python.Smoke_Sensor" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8149ecb6-c8bd-4d8c-862e-7b59632750ac" name="Default Changelist" comment="" />
+      <created>1557491745982</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1557491745982</updated>
+    </task>
+    <task id="LOCAL-00001" summary="first develop">
+      <created>1557840414265</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1557840414265</updated>
+    </task>
+    <task id="LOCAL-00002" summary="first develop">
+      <created>1557842554756</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1557842554756</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Second develop">
+      <created>1557842683308</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1557842683308</updated>
+    </task>
+    <task id="LOCAL-00004" summary="4th develop">
+      <created>1557921728528</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1557921728528</updated>
+    </task>
+    <task id="LOCAL-00005" summary="4th develop">
+      <created>1557926784477</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1557926784477</updated>
+    </task>
+    <task id="LOCAL-00006" summary="5th develop">
+      <created>1557927802123</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1557927802123</updated>
+    </task>
+    <task id="LOCAL-00007" summary="6th develop">
+      <created>1557928433098</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1557928433098</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Deleting old Files in Raspberry folder">
+      <created>1557929440440</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1557929440440</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Deleting old Files in Raspberry folder">
+      <created>1558528869337</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1558528869337</updated>
+    </task>
+    <task id="LOCAL-00010" summary="New Publisher , AC subscriber...">
+      <created>1558949712359</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1558949712359</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
+    <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="25" width="1360" height="743" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49275362" visible="true" weight="0.19670905" />
+      <window_info id="Structure" order="1" sideWeight="0.5072464" side_tool="true" weight="0.23261032" />
+      <window_info id="Favorites" order="2" sideWeight="0.5072464" side_tool="true" weight="0.23261032" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32899022" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4988781" weight="0.32899022" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32899022" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49513838" weight="0.32899022" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49962604" weight="0.32954547" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50112194" side_tool="true" weight="0.32792208" />
+      <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49962604" weight="0.32954547" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49275362" visible="true" weight="0.19670905" />
+      <window_info id="Structure" order="1" sideWeight="0.5072464" side_tool="true" weight="0.23261032" />
+      <window_info id="Favorites" order="2" sideWeight="0.5072464" side_tool="true" weight="0.23261032" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32899022" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4988781" visible="true" weight="0.32899022" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32899022" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49513838" weight="0.32899022" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49962604" weight="0.32954547" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50112194" side_tool="true" weight="0.32792208" />
+      <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49962604" weight="0.32954547" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first develop" />
+    <MESSAGE value="Second develop" />
+    <MESSAGE value="4th develop" />
+    <MESSAGE value="5th develop" />
+    <MESSAGE value="6th develop" />
+    <MESSAGE value="Deleting old Files in Raspberry folder" />
+    <MESSAGE value="New Publisher , AC subscriber..." />
+    <option name="LAST_COMMIT_MESSAGE" value="New Publisher , AC subscriber..." />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/test.py" />
+    <entry file="file://$PROJECT_DIR$/Test Files/ReadingDHT.py" />
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Programming-for-IoT-applications-master/Final_IoT_Project/Final_IoT_Project/Final Version/on_pc/ThingsSpeakAdapter/ThingSpeakUpload.py" />
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Programming-for-IoT-applications-master/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/publish_hum_temp/ReadingDHT.py" />
+    <entry file="file://$PROJECT_DIR$/Temp-Hum.py" />
+    <entry file="file://$PROJECT_DIR$/Raspberry/Motion-Sensor.py" />
+    <entry file="file://$PROJECT_DIR$/Raspberry/MotionPublisher.py" />
+    <entry file="file://$PROJECT_DIR$/Reading_Sensors/Motion-Sensor.py" />
+    <entry file="file://$PROJECT_DIR$/Raspberry/MotionSensor.py" />
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/publish_hum_temp/ReadingDHT.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raspberry/TempHumPublisher.py" />
+    <entry file="file://$PROJECT_DIR$/Raspberry/TempandHumidity.py" />
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_pc/ResourceCatalog/config_file.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_pc/ResourceCatalog/initial_data.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/publish_hum_temp/config_file.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="25" lean-forward="true" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/publish_hum_temp/PublishTempHum.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-750">
+          <caret line="27" column="60" lean-forward="true" selection-start-line="27" selection-start-column="60" selection-end-line="27" selection-end-column="60" />
+          <folding>
+            <element signature="e#271#304#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_pc/MQTT_To_WebService/real_time_data.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_pc/MQTT_To_WebService/SubscribeData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="31" column="47" lean-forward="true" selection-start-line="31" selection-start-column="47" selection-end-line="31" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/onPC/realTimeData/configFile.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/publish_people_no/PublishPeoPleNo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-720" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/onPC/realTimeData/realTimeDataWebService.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="49" column="54" selection-start-line="49" selection-start-column="54" selection-end-line="49" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/onPC/resourceCatalog/initialData.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Test Files/Temp-Humid.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Test Files/Temp_Humidity_Publisher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="62" column="12" selection-start-line="62" selection-start-column="12" selection-end-line="62" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Smoke_Publisher.py" />
+    <entry file="file://$USER_HOME$/Downloads/smokeDetection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="690">
+          <caret line="46" column="15" lean-forward="true" selection-start-line="46" selection-start-column="15" selection-end-line="46" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/cherrypy/process/servers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2910">
+          <caret line="224" selection-start-line="224" selection-end-line="224" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/onPC/realTimeData/subscribeRealTimeData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="56" column="39" selection-start-line="56" selection-start-column="33" selection-end-line="56" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/onPC/realTimeData/realTimeData.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/SubscribeAcOrder/config_file.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/SubscribeAcOrder/LEDbyRelay.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="84" lean-forward="true" selection-end-line="86" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raspberry/Temp_Humidity_Sensor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-45">
+          <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raspberry/Motion_Sensor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="45" lean-forward="true" selection-end-line="46" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raspberry/Smoke_Sensor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="32" selection-start-line="32" selection-end-line="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raspberry/Smoke_Publisher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="53" column="65" lean-forward="true" selection-start-line="53" selection-start-column="65" selection-end-line="53" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/onPC/resourceCatalog/configFile.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="26" lean-forward="true" selection-start-line="2" selection-start-column="26" selection-end-line="2" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/onPC/resourceCatalog/resourceCatalog.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="940">
+          <caret line="95" column="38" lean-forward="true" selection-start-line="95" selection-start-column="38" selection-end-line="95" selection-end-column="38" />
+          <folding>
+            <element signature="e#104#119#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raspberry/DEHUM_Subscriber.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="49" column="27" lean-forward="true" selection-start-line="49" selection-start-column="27" selection-end-line="49" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raspberry/AC_Subscriber.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-53">
+          <caret line="38" column="47" lean-forward="true" selection-start-line="38" selection-start-column="47" selection-end-line="38" selection-end-column="47" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raspberry/Smoke_Publisher Antonio Version.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="36" column="69" lean-forward="true" selection-start-line="36" selection-start-column="69" selection-end-line="36" selection-end-column="69" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raspberry/Motion_Publisher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="945">
+          <caret line="106" column="28" selection-start-line="106" selection-start-column="28" selection-end-line="106" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raspberry/Temp_Humidity_Publisher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="472">
+          <caret line="112" column="24" selection-start-line="112" selection-start-column="24" selection-end-line="112" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raspberry/LED_Control.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="16" column="29" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/SubscribeAcOrder/PublishAcStatus.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="397">
+          <caret line="72" column="49" selection-start-line="72" selection-start-column="49" selection-end-line="72" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Completed ICT Projects/Sample Project/Final_IoT_Project/Final_IoT_Project/Final Version/on_raspberry/SubscribeAcOrder/SubscribeAcOrder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-878">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+          <folding>
+            <element signature="e#225#240#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Raspberry/config_file.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="25" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
