@@ -74,7 +74,7 @@ class resourceCatalog(object):
             if key == 'thingspeak':
                 temporaryJson["thingspeak"] = {"readApiKey": newData['thingspeak']['readApiKey'], "writeApiKey": newData['thingspeak']['writeApiKey'], "channelId": newData['thingspeak']['channelId'], "wsPort": newData['thingspeak']['wsPort'], "mqttBroker": newData['thingspeak']['mqttBroker'], "mqttPort": newData['thingspeak']['mqttPort']}
             if key == 'topic':
-                temporaryJson["topic"] = {"acTopic": newData['topic']['acTopic'], 'dehumTopic':newData['topic']['dehumTopic'], 'dehumOrder':newData['topic']['dehumOrder'], "dhtTopic": newData['topic']['dhtTopic'], "acOrder": newData['topic']['acOrder'], "motionTopic": newData['topic']['motionTopic']}
+                temporaryJson["topic"] = {"acTopic": newData['topic']['acTopic'], 'dehumTopic':newData['topic']['dehumTopic'], 'dehumOrder':newData['topic']['dehumOrder'], "dhtTopic": newData['topic']['dhtTopic'], "acOrder": newData['topic']['acOrder'], "motionTopic": newData['topic']['motionTopic'], "smokeTopic": newData['topic']['smokeTopic']}
             iniData[item] = temporaryJson
             # updating the json file
         try:
