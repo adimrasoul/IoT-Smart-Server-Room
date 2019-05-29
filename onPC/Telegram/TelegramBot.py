@@ -40,11 +40,7 @@ class telegramBot(object):
             else:
                 mot = "NOT DETECTED"
             smoke = jsonformat['smoke']
-            if int(dehum) == 0:
-                deh = "OFF"
-            else:
-                deh = "ON"
-            outputString = 'Temperature: '+ str(temp) + '; humidity: ' + str(hum) +"; acStatus: "+str(staus) +"; motion:" + str(mot) + "; smoke:" + str(smoke) + "; dehumidificator:" + str(deh)
+            outputString = 'Temperature: '+ str(temp) + '; humidity: ' + str(hum) +"; acStatus: "+str(staus) +"; motion:" + str(mot) + "; smoke:" + str(smoke) + "; dehumidificator:" + str(dehum)
             #print(outputString)
         except:
                 return "Please enter the correct room id, like 'room1'"
