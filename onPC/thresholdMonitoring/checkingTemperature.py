@@ -31,7 +31,7 @@ class checkingThreshold(object):
         except :
             print("* CheckingThreshold: ERROR IN CONNECTING TO THE SERVER FOR READING initial_data.JSON *")
         return
-    def gettingTempHum(self):
+    def gettingTemp(self):
         # sending request to the MQTT To WebService to get the current value for temperature and humidity
         try:
             self.temperature = requests.get("http://" + self.restURL + ":" + self.port + "/" + self.roomId + "/temp").content
@@ -74,7 +74,7 @@ class checkingThreshold(object):
         print("at time: " + str(currentTime))
         print("--------------------------------------------------------------------")
         return str(mid)
-    def publish_order(self):
+    def publishOrder(self):
         # this function will publish the order to AC
         try:
             print(self.orderMsg)
@@ -121,8 +121,8 @@ if __name__ == '__main__':
             print("* PublishData: ERROR IN CONNECTING TO THE BROKER *")
         while True:
             sens.loadFile()
-            sens.gettingTempHum()
+            sens.gettingTemp()
             sens.checkThresholds()
             # sending request to resource catalog to get the broker ip
-            sens.publish_order()
+            sens.publishOrder()
             time.sleep(10)
