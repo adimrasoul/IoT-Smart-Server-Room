@@ -4,53 +4,86 @@ import paho.mqtt.client as mqtt
 import requests
 import json
 import time
+import datetime
 
-class PublishDataTS(object):
-    payload = "null"
-    topic = "null"
-    def __init__(self,url,client):
+class dataToThingSpeak(object):
+    def __init__(self,url,client,wAK,cI):
         self.url = url
         self.client = client
-    def setThingSpeakVariables(self):
-        # request the thingspeak variables related the roomId, from the resource catalog
-        try:
-            respond = requests.get(self.url)
-        except:
-            print ("* ThingSpeak: ERROR IN CONNECTING TO THE SERVER FOR READING THINGSPEAKCONNECTIONINFO.JSON *")
-            return
-        json_format = json.loads(respond.text)
-        self.writeApiKey = json_format["thingspeak"]["writeApiKey"]
-        self.channelId = json_format["thingspeak"]["channelId"]
+        self.t = time.time()
+        self.payload = ''
+        self.writeApiKey = wAK
+        self.channelId = cI
         # create the topic string
         self.topic = str("channels/" + self.channelId + "/publish/" + self.writeApiKey)
-        print("ThingSpesk: THINGSPEAK VARIABLES ARE READY")
-        return
-    def sendingData(self, message):
-        temperature = message['temp']
-        humidity = message["hum"]
-        status = message["acStatus"]
-        if (status == "ON"):
-            result = 1
-        else:
-            result = 0
-        motion = message["motion"]
-        dehum = message["dehumStatus"]
-        if (dehum == "ON"):
-            resultDeh = 1
-        else:
-            resultDeh = 0
-        smoke = message["smoke"]
-        print("To thingspeak: ", temperature, humidity, status, motion, dehum, smoke)
-        # build the payload string
-        payload = str("&field1=" + str(temperature) + "&field2=" + str(humidity) + "&field3=" + str(result) + "&field4=" + str(motion) + "&field5=" + str(smoke) + "&field6=" + str(resultDeh))
-        # attempt to publish this data to the topic
+    @staticmethod
+    def on_connect(client, userdata, flags, rc):
+        getTime = datetime.datetime.now()
+        currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
+        print('CONNACK received with code: ' + str(rc))
+        print("at time: " + str(currentTime))
+    @staticmethod
+    def on_subscribe(client, userdata, mid, granted_qos):
+        getTime = datetime.datetime.now()
+        currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
+        print("Subscribed at time: " + str(currentTime))
+    @classmethod
+    def on_publish(cls, client, userdata, mid):
+        getTime = datetime.datetime.now()
+        currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
+        print("Published Message")
+        print("at time: " + str(currentTime))
+        print("--------------------------------------------------------------------")
+    @classmethod
+    def on_message(self, client, userdata, msg):
+        messageBody = str(msg.payload.decode("utf-8"))
+        getTime = datetime.datetime.now()
+        currentTime =  getTime.strftime("%Y-%m-%d %H:%M:%S")
+        print("message received: ", messageBody)
+        print("at time: " + str(currentTime))
+        print("--------------------------------------------------------------------")
+        receivedInfo = json.loads(messageBody)
+        sens.pub(receivedInfo)
+    @classmethod
+    def pub(self,receivedInfo):
+        print('inside pub')
+        subject = receivedInfo["subject"]
+        # building the payload string
+        if (subject == "temp_hum_data"):
+            temperature = receivedInfo["temperature"]
+            humidity = receivedInfo["humidity"]
+            sens.payload += str("&field1=" + str(temperature) + "&field2=" + str(humidity))
+        elif (subject == "Ac_Status"):
+            acStatus = receivedInfo["Status"]
+            if (acStatus == "ON"):
+                result = 1
+            else:
+                result = 0
+            sens.payload += str("&field3=" + str(result))
+        elif (subject == "dehumStatus"):
+            dehum = receivedInfo["Status"]
+            if (dehum == "ON"):
+                resultDeh = 1
+            else:
+                resultDeh = 0
+            sens.payload += str("&field6=" + str(resultDeh))
+        elif (subject == "smoke"):
+            smoke = receivedInfo["value"]
+            sens.payload += str("&field5=" + str(smoke))
+        elif (subject == "motion_data"):
+            motion = receivedInfo["Motion_Detection"]
+            sens.payload += str("&field4=" + str(motion))
+        print("To thingspeak: ", sens.payload)
+    @classmethod
+    def pubTS(self):
+        # print(sens.topic)
+        # print(sens.payload)
         try:
-            self.client.publish(self.topic, payload)
+            sens.client.publish(sens.topic, sens.payload)
         except:
-            print("* ThingSpeak: ERROR IN PUBLISHING THE HUM AND TEMP TO THINGSPEAK *")
-        return
+            print("* ThingSpeak: ERROR IN PUBLISHING TO THINGSPEAK *")
+        sens.payload = ''
 
-    
 if __name__ == '__main__':
     # from config file it reads the resource catalog url and the roomId that it should listen to its publishers
     try:
@@ -58,46 +91,45 @@ if __name__ == '__main__':
         jsonString = file.read()
         file.close()
     except:
-        raise KeyError("* SubscribeDataTS: ERROR IN READING CONFIG FILE *")
+        raise KeyError("* ThingSpeak: ERROR IN READING CONFIG FILE *")
     # reading from the local file the url of the resource catalog and the roomId we are interested in
     configJson = json.loads(jsonString)
     resourceCatalogIP = configJson["resourceCatalog"]["url"]
     roomId = configJson["resourceCatalog"]["roomId"]
     url = resourceCatalogIP + roomId
-    # reading from the resourceCatalog (Web Service) the real time data IP
-    respond = requests.get(resourceCatalogIP + "realTimeData")    
-    jsonFormat = json.loads(respond.text)
-    realTimeDataIp = jsonFormat["ip"]
-    realTimeDataPort = jsonFormat["port"]
-    realTimeDataUrl = realTimeDataIp + ':'+ realTimeDataPort
-    print(realTimeDataUrl)
-    # creating an MQTT client to publish data on ThingSpeak
-    client = mqtt.Client()
-    #create an object from PublishDataTS
-    sens = PublishDataTS(url, client)
-    # getting all info about the room we are interested in
-    respond = requests.get(resourceCatalogIP + str(roomId))
-    jsonFormat = json.loads(respond.text)
+    try:
+        # getting all info about the room we are interested in
+        respond = requests.get(resourceCatalogIP + 'all')
+        jsonFormat = json.loads(respond.text)
+    except:
+        raise KeyError(" * dataToThingSpeak: ERROR IN READING INFO FORM THE RESOURCE CATALOG *")
+    brokerEclipse = jsonFormat['broker']['ip']
+    brokerEclipsePort = jsonFormat['broker']['port']
     # 'mqtt.thingspeak.com' - broker used to publish data on ThingSpeak
-    brokerIp = jsonFormat["thingspeak"]["mqttBroker"] 
-    wsPort = int(jsonFormat["thingspeak"]["wsPort"])
-    mqttPort = int(jsonFormat["thingspeak"]["mqttPort"])
-    # connecting to the broker
-    client.connect(brokerIp,mqttPort,wsPort)
+    brokerIp = jsonFormat[roomId]["thingspeak"]["mqttBroker"] 
+    wsPort = int(jsonFormat[roomId]["thingspeak"]["wsPort"])
+    mqttPort = int(jsonFormat[roomId]["thingspeak"]["mqttPort"])
+    writeApiKey = jsonFormat[roomId]["thingspeak"]["writeApiKey"] 
+    channelId = jsonFormat[roomId]["thingspeak"]["channelId"] 
+    # MQTT client that sends data to ThingSpeak
+    client = mqtt.Client()
+    client.on_connect = dataToThingSpeak.on_connect
+    client.on_publish = dataToThingSpeak.on_publish
+    client.connect(brokerIp,mqttPort,wsPort) #####
     client.loop_start()
-    # setting ThingSpeak variables 
-    sens.setThingSpeakVariables()
+    # MQTT client to receive real time data
+    clientEclipse = mqtt.Client()
+    clientEclipse.on_message = dataToThingSpeak.on_message
+    clientEclipse.on_connect = dataToThingSpeak.on_connect
+    clientEclipse.on_subscribe = dataToThingSpeak.on_subscribe
+    # create an object from dataToThingSpeak
+    sens = dataToThingSpeak(url, client, writeApiKey,channelId)
+    try:
+        clientEclipse.connect(brokerEclipse, int(brokerEclipsePort))
+        clientEclipse.subscribe('dataCenter/#')
+        clientEclipse.loop_start()
+    except:
+        print("* ThingSpeak: PROBLEM IN CONNECTING TO THE BROKER *")
     while True:
-        try:
-            # reading the real time data for the given room
-            respond = requests.get('http://' + realTimeDataUrl + "/" + str(roomId) + "/all")
-            RTDjsonFormat = json.loads(respond.text)
-            print("SubscribeDataTS: BROKER VARIABLES ARE READY")
-        except:
-            print("* SubscribeDataTS: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS *")
-        try:
-            # function that will send data to ThingSpeak
-            sens.sendingData(RTDjsonFormat)
-        except:
-            print("* SubscribeDataTS: PROBLEM IN CONNECTING TO THE BROKER *")
-        time.sleep(30) 
+        time.sleep(16)
+        sens.pubTS()
