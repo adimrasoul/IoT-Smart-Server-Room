@@ -2,19 +2,22 @@
 
 import cherrypy
 import json
+#import paho.mqtt.client as mqtt
 
 class resourceCatalog(object):
+    #def __init__(self, cl):
+        #self.i = 0
+        # self.client = cl
     exposed = True
-    def __init__(self):
+    def GET(self, *uri, **params):
         # reading the file with the informations
         try:
             file = open("initialData.json", "r")
             self.jsonString = file.read()
             file.close()
         except:
-            raise KeyError("* resourceCatalog: ERROR IN READING initialData.json *")
+            raise KeyError("* resourceCatalog: ERROR IN READING INITIAL DATA *")
         self.jsonDic = json.loads(self.jsonString)
-    def GET(self, *uri, **params):
         # item will contain the request information
         item = uri[0]
         if (item in self.jsonDic):
@@ -26,16 +29,27 @@ class resourceCatalog(object):
         else:
             return "* Nothing founded: MAKE SURE THAT YOU ARE SENDING THE RIGHT VALUE IN THE URL *"
     def POST(self, *uri, **params):
+        # reading the file with the informations
+        try:
+            file = open("initialData.json", "r")
+            self.jsonString = file.read()
+            file.close()
+        except:
+            raise KeyError("* resourceCatalog: ERROR IN READING INITIAL DATA FOR THE POST *")
+        self.jsonDic = json.loads(self.jsonString)
         # initial data in the resource catalog
         iniData = self.jsonDic
         # data to insert/modifiy
         data = cherrypy.request.body.read()
         newData = json.loads(data)
+        print(newData)
         # item will contain the request information
         item = uri[0]
         # updating the initial file by using the data coming from the web page
         if (item in iniData):
             key = list(newData.keys())[0]
+            #key = newData[0]
+            print(key)
             if key == 'thresholds':
                 iniData[item]['thresholds']['minHum'] = newData['thresholds']['minHum']
                 iniData[item]['thresholds']['minTemp'] = newData['thresholds']['minTemp']
@@ -55,7 +69,7 @@ class resourceCatalog(object):
                 iniData[item]['topic']['dehumOrder'] = newData['topic']['dehumOrder']
                 iniData[item]['topic']['acOrder'] = newData['topic']['acOrder']
                 iniData[item]['topic']['motionTopic'] = newData['topic']['motionTopic']
-                iniData[item]['topic']['smokeTopic'] = newData['topic']['smokeTopic']
+                iniData[item]['topic']['thresholdTopic'] = newData['topic']['thresholdTopic']
             elif key == 'broker':
                 iniData['broker']['ip'] = newData['broker']['ip']
                 iniData['broker']['port'] = newData['broker']['port']
@@ -66,7 +80,7 @@ class resourceCatalog(object):
                 iniData['realTimeData']['ip'] = newData['realTimeData']['ip']
                 iniData['realTimeData']['port'] = newData['realTimeData']['port']
         else:
-            # creation of a new room by the user: inserting the new room to the json file
+            # creation of a new room by the user by inserting the new room to the json file
             key = list(newData.keys())[0]
             temporaryJson = {}
             if key == 'thresholds':
@@ -74,16 +88,15 @@ class resourceCatalog(object):
             if key == 'thingspeak':
                 temporaryJson["thingspeak"] = {"readApiKey": newData['thingspeak']['readApiKey'], "writeApiKey": newData['thingspeak']['writeApiKey'], "channelId": newData['thingspeak']['channelId'], "wsPort": newData['thingspeak']['wsPort'], "mqttBroker": newData['thingspeak']['mqttBroker'], "mqttPort": newData['thingspeak']['mqttPort']}
             if key == 'topic':
-                temporaryJson["topic"] = {"acTopic": newData['topic']['acTopic'], 'dehumTopic':newData['topic']['dehumTopic'], 'dehumOrder':newData['topic']['dehumOrder'], "dhtTopic": newData['topic']['dhtTopic'], "acOrder": newData['topic']['acOrder'], "motionTopic": newData['topic']['motionTopic'], "smokeTopic": newData['topic']['smokeTopic']}
+                temporaryJson["topic"] = {"acTopic": newData['topic']['acTopic'], 'dehumTopic':newData['topic']['dehumTopic'], 'dehumOrder':newData['topic']['dehumOrder'], "dhtTopic": newData['topic']['dhtTopic'], "acOrder": newData['topic']['acOrder'], "motionTopic": newData['topic']['motionTopic'], "thresholdTopic": newData['topic']['thresholdTopic']}
             iniData[item] = temporaryJson
-            # updating the json file
         try:
+            # updating the json file
             temp = open("initialData.json", "w")
             json.dump(iniData, temp)
-            return "UPDATED"
-        except Exception as e:
-            print("* Error:",e)
-            return "* Problem in updating file *"
+            temp.close()
+        except:
+            raise KeyError("* resourceCatalog: PROBLEM IN UPDATING THE FILE *")
 
 if __name__ == '__main__':
     # reading the config file to set the url and the port on which expose the web service
@@ -93,6 +106,7 @@ if __name__ == '__main__':
     data = json.loads(jsonString)
     ip = data["resourceCatalog"]["ip"]
     port = data["resourceCatalog"]["port"]
+    # client = mqtt.Client()
     # configuration for the web service
     conf = { '/': { 'request.dispatch': cherrypy.dispatch.MethodDispatcher(), 'tools.sessions.on': True } }
     cherrypy.tree.mount(resourceCatalog(), '/', conf)

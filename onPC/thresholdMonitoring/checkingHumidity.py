@@ -1,5 +1,4 @@
-# checking if the real time data are inside the given threshold
-# temperature
+# checking if the humidity real time data are inside the given threshold
 
 import requests
 import json
@@ -12,78 +11,76 @@ class checkingThreshold(object):
         self.urlResource = url
         self.roomId = roomId
         self.client = client
-    def loadFile(self):
-        try:
-            # sending the request to the resource catalog to get the MQTT to webService url
-            respond = requests.get(self.urlResource + "/realTimeData")
-            jsonFormat = json.loads(respond.text)
-            self.restURL = jsonFormat["ip"]
-            self.port = jsonFormat["port"]
-        except :
-            print("* CheckingThreshold: ERROR IN CONNECTING TO THE SERVER FOR GETTING WEB SERVICE IP *")
+    @classmethod
+    def checkThresholds(self,receivedInfo):
         try:
             # sending the request to the resource catalog to get the threshold values for the specified room
-            respond = requests.get(self.urlResource + "/" + self.roomId)
+            # print(sens.urlResource, sens.roomId)
+            respond = requests.get(sens.urlResource + "/" + sens.roomId)
             jsonFormat = json.loads(respond.text)
-            self.acOrder = jsonFormat["topic"]["dehumOrder"]
-            self.maxTemp = jsonFormat["thresholds"]["maxHum"]
-            self.minTemp = jsonFormat["thresholds"]["minHum"]
-        except :
-            print("* CheckingThreshold: ERROR IN CONNECTING TO THE SERVER FOR READING initial_data.JSON *")
-        return
-    def gettingHum(self):
-        # sending request to the MQTT To WebService to get the current value for temperature and humidity
-        try:
-            self.temperature = requests.get("http://" + self.restURL + ":" + self.port + "/" + self.roomId + "/hum").content
-            print("real time data", self.temperature)
+            self.dehumOrder = jsonFormat["topic"]["dehumOrder"]
+            self.maxHum = jsonFormat["thresholds"]["maxHum"]
         except:
-            print("* CheckingThreshold: ERROR IN GETTING DATA FROM WEB SERVICE *")
-        return
-    def checkThresholds(self):
+            print("* CheckingHumidity: ERROR IN CONNECTING TO THE SERVER FOR READING INITIAL DATA *")
         # check the current values with the thresholds
-        temperature = float(self.temperature)
-        if (temperature > float(self.maxTemp)):
+        # receivedInfo = json.loads(messageBody)
+        humidity = float(receivedInfo['humidity'])
+        if (humidity > float(self.maxHum)):
             #set the publisher message for turning on the A/C
             self.order = "turnOn"
             try:
-                self.orderMsg = json.dumps({"subject": "dehumOrder", "roomId": self.roomId, "order": str(self.order)})
+                self.orderMsg = json.dumps({"subject": "dehumOrder", "roomId": sens.roomId, "order": str(self.order)})
             except:
-                print("* CheckingThreshold: ERROR IN SENDING TURN ON ORDER *")
+                print("* CheckingHumidity: ERROR IN SENDING TURN ON ORDER *")
         else:
             # set the publisher message for turning off the A/C
             self.order = "turnOff"
             try:
-                self.orderMsg = json.dumps({"subject": "dehumOrder", "roomId": self.roomId, "order": str(self.order)})
+                self.orderMsg = json.dumps({"subject": "dehumOrder", "roomId": sens.roomId, "order": str(self.order)})
             except:
-                print("* CheckingThreshold: ERROR IN SENDING TURN OFF ORDER *")
-        return
+                print("* CheckingHumidity: ERROR IN SENDING TURN OFF ORDER *")
     @staticmethod
     def on_connect(client, userdata, flags, rc):
-        # get the current time
         getTime = datetime.datetime.now()
         currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
         print('CONNACK received with code: ' + str(rc))
         print("at time: " + str(currentTime))
     @classmethod
     def on_publish(cls, client, userdata, mid):
-        # get the current time
         getTime = datetime.datetime.now()
         currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
         print("Published Message")
         print("at time: " + str(currentTime))
         print("--------------------------------------------------------------------")
+    @staticmethod
+    def on_subscribe(client, userdata, mid, granted_qos):
+        getTime = datetime.datetime.now()
+        currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
+        print("Subscribed at time: " + str(currentTime))
+    @classmethod
     def publishOrder(self):
-        # this function will publish the order to AC
+        # publishing dehumidificator order
         try:
             print(self.orderMsg)
-            print(self.acOrder)
-            self.client.publish(self.acOrder, str(self.orderMsg))#, qos=1)
+            print(self.dehumOrder)
+            sens.client.publish(self.dehumOrder, str(self.orderMsg))#, qos=1)
         except:
-            getTime = datetime.datetime.now()
-            currentTime = getTime.strftime("%Y-%m-%d %H:%M:%S")
-            print("* PublishAcStatus: ERROR IN PUBLISHING THE DATA *")
-            print("at time: " + str(currentTime))
-        return
+            raise KeyError("* CheckingHumidity: ERROR IN PUBLISHING THE DATA *")
+    @classmethod
+    def on_message(self, client, userdata, msg):
+        messageBody = str(msg.payload.decode("utf-8"))
+        getTime = datetime.datetime.now()
+        currentTime =  getTime.strftime("%Y-%m-%d %H:%M:%S")
+        print("message received: ", messageBody)
+        print("at time: " + str(currentTime))
+        print("----------------------------------------------------------------")
+        receivedInfo = json.loads(messageBody)
+        subject = receivedInfo["subject"]
+        if (subject == "temp_hum_data"):
+            self.checkThresholds(receivedInfo)
+            self.publishOrder()
+        else:
+            pass
 
 if __name__ == '__main__':
     # reading the config file
@@ -92,35 +89,33 @@ if __name__ == '__main__':
         jsonString = file.read()
         file.close()
     except:
-        raise KeyError("* CheckingThreshold: ERROR IN READING CONFIG FILE *")
+        raise KeyError("* CheckingHumidity: ERROR IN READING CONFIG FILE *")
     configJson = json.loads(jsonString)
     # retrieving the roomId and the resource catalog url from the config file
     resourceCatalogIp = configJson["resourceCatalog"]["url"]
     roomId = configJson["resourceCatalog"]["roomId"]
     # creating an MQTT client
     client = mqtt.Client()
+    client.on_connect = checkingThreshold.on_connect
+    client.on_publish = checkingThreshold.on_publish
+    client.on_subscribe = checkingThreshold.on_subscribe
+    client.on_message = checkingThreshold.on_message
     # create a class checkingThreshold
     sens = checkingThreshold(resourceCatalogIp, roomId, client)
     # sensing the data from the sensors
+    try:
+        respond = requests.get(resourceCatalogIp + "/all")
+        jsonFormat = json.loads(respond.text)
+        ip = jsonFormat['broker']["ip"]
+        port = jsonFormat['broker']["port"]
+        topic = jsonFormat[roomId]['topic']['dhtTopic']
+    except:
+        print("* CheckingHumidity: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER IP *")
+    try:
+        client.connect(str(ip), int(port))
+        client.subscribe(str(topic), qos=1)
+        client.loop_start()
+    except:
+        print("* CheckingHumidity: ERROR IN CONNECTING TO THE BROKER *")
     while True:
-        try:
-            respond = requests.get(resourceCatalogIp + "/broker")
-            jsonFormat = json.loads(respond.text)
-            ip = jsonFormat["ip"]
-            port = jsonFormat["port"]
-        except:
-            print("* PublishData: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER IP *")
-        try:
-            client.on_connect = checkingThreshold.on_connect
-            client.on_publish = checkingThreshold.on_publish
-            client.connect(str(ip), int(port))
-            client.loop_start()
-        except:
-            print("* PublishData: ERROR IN CONNECTING TO THE BROKER *")
-        while True:
-            sens.loadFile()
-            sens.gettingHum()
-            sens.checkThresholds()
-            # sending request to resource catalog to get the broker ip
-            sens.publishOrder()
-            time.sleep(10)
+        time.sleep(10)

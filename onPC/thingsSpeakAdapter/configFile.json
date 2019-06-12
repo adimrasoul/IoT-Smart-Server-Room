@@ -1,6 +1,6 @@
 {
 	"resourceCatalog": {
 		"url": "http://172.20.10.10:8080/",
-		"roomId": "room1"
+		"roomId":"room1"
 	}
 }
