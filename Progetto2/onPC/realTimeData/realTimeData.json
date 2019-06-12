@@ -1,0 +1,1 @@
+{"room1": {"temp": "28", "acStatus": "ON", "dehumStatus": "ON", "hum": "40", "motion": "1", "smoke": "99"}, "room2": {"temp": 28.0, "acStatus": "ON", "dehumStatus": "OFF", "hum": 33.0, "motion": 0, "smoke": "12"}}
