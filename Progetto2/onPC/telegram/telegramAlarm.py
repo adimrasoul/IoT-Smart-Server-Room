@@ -62,7 +62,7 @@ class telegramAlarm(object):
             else:
                 pass
         elif (subject == "acOrder"):
-            if (receivedInfo['order']):
+            if (receivedInfo['order'] == 'Turn on'):
                 sendText1 = 'https://api.telegram.org/bot' + self.port + '/sendMessage?chat_id=' + self.chatId + '&parse_mode=Markdown&text=' + 'ALERT!'
                 sendText2 = 'https://api.telegram.org/bot' + self.port + '/sendMessage?chat_id=' + self.chatId + '&parse_mode=Markdown&text=' + 'temperature above the thresold'
                 try:
