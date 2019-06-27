@@ -5,32 +5,33 @@ import json
 import time
 from LED_Control import LEDControl
 
+""" Here we subscribe the orders to AC. to Turn the AC ON or OFF"""
+
+
 class SubscribeAcOrder(object):
 
     payload = "null"
     orders = 'null'
 
     def __init__(self, url, roomId, client):
-        # this flag is for checking the current status of the A/C
-        #self.flag = 0
         self.url =url
         self.room_Id = roomId
         self.source = "AC"
-        # create an object from LEDbyRlay class
+        # create an object from LEDControl class
         self.controlling_LED = LEDControl(url, roomId,self.source)
         self.client = client
         client.on_subscribe = self.on_subscribe
         client.on_message = self.on_message
 
     def load_topics(self):
-# sending request to get the topic by sending the room_id to the resource catalog
+        # Sending request to get the topic by sending the room_id to the resource catalog
         try:
             self.respond = requests.get(self.url + self.room_Id)
             json_format = json.loads(self.respond.text)
             self.AC_status = json_format["topic"]["acOrder"]
-            print("SubscribeAcOrder: Ac TOPIC ARE READY")
+            print("AC_Subscriber : Ac TOPIC ARE READY")
         except:
-            print("SubscribeAcOrder: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
+            print("AC_Subscriber : ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
 
     @staticmethod
     def on_subscribe(client, userdata, mid, granted_qos):
@@ -50,42 +51,43 @@ class SubscribeAcOrder(object):
         cls.payload = json.loads(message_body)
         print(cls.payload["order"])
         cls.orders = cls.payload["order"]
+        print("AC_Subscriber : calling order function")
+        # for every message that will receive we will call the order function
+        sens.order()
 
     def order(self):
-        print("order function is called")
-# here check the order, and apply it ine time by using the flag
+        # Order function will check the data of payload. if it is turn on it will try to call setup and led_on function
+        # LED Control file. if it is turn off vice versa. in LED Control there are some lines that will try to publish
+        # the status of AC by using AC Status Publisher
+
+        print("AC_Subscriber : order function is called")
         if self.orders == "turnOn":
-            # and self.flag == 0
-            print("Sending Turn on order")
+            print("AC_Subscriber : Sending Turn on order to LED")
 
             try:
                 self.controlling_LED.setup()
                 self.controlling_LED.LED_ON()
-                #self.flag = 1
-
             except:
-                print("SubscribeAcOrder: ERROR IN SENDING TURN ON ORDER TO RELAY")
+                print("AC_Subscriber : ERROR IN SENDING TURN ON ORDER TO LED")
 
         elif self.orders == "turnOff":
-             #and self.flag == 1:
-            print("Sending Turn off order")
+            print("AC_Subscriber : Sending Turn off order to LED")
             try:
                 self.controlling_LED.setup()
                 self.controlling_LED.LED_OFF()
-                #self.flag = 0
             except:
-                print("SubscribeAcOrder: ERROR IN SENDING TURN OFF ORDER TO RELAY")
+                print("AC_Subscriber : ERROR IN SENDING TURN OFF ORDER TO RELAY")
 
 
 if __name__ == '__main__':
     # RUN THE SUBSCRIBE FOR GETTING THE TEMPERATURE AND HUMIDITY DATA
     try:
-        # read the comfig file to set hte resource catalog url and the room_id
+        # read the config file to set hte resource catalog url and the room_id
         file = open("config_file.json", "r")
         json_string = file.read()
         file.close()
     except:
-        raise KeyError("***** SubscribeAcOrder: ERROR IN READING CONFIG FILE *****")
+        raise KeyError("***** AC_Subscriber : ERROR IN READING CONFIG FILE *****")
 
     config_json = json.loads(json_string)
     resourceCatalogip = config_json["reSourceCatalog"]["url"]
@@ -95,27 +97,24 @@ if __name__ == '__main__':
 
     try:
         # sending request to resource catalog to get the broker info
-
         sens.load_topics()
         respond = requests.get(resourceCatalogip+"broker")
         json_format = json.loads(respond.text)
         Broker_IP = json_format["ip"]
         Broker_Port = json_format["port"]
-        print("SubscribeAcOrder:: BROKER VARIABLES ARE READY")
+        print("AC_Subscriber:: BROKER VARIABLES ARE READY")
     except:
-        print("SubscribeAcOrder: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
+        print("AC_Subscriber: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
     try:
         client.connect(Broker_IP, int(Broker_Port))
-        client.subscribe(str(sens.AC_status), qos=1)# dataCenter/room1/order
+        client.subscribe(str(sens.AC_status), qos=1)
         client.loop_start()
 
         while True:
-            #client.subscribe("dataCenter/room1/#", qos=1)
-            print("calling order function")
-            sens.order()
-            time.sleep(5)
+            time.sleep(1)
     except:
-        print("SubscribeAcOrder: Problem in connecting to broker")
+
+        print("AC_Subscriber: Problem in connecting to broker")
 
 
 

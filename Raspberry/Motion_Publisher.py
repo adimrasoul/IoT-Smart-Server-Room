@@ -5,6 +5,9 @@ import datetime
 import requests
 import json
 
+"""publishing the data of Motion Sensor"""
+
+
 class PublishData(object):
 
     def __init__(self, url, sensor_t_h,roomId, client):
@@ -19,9 +22,9 @@ class PublishData(object):
             self.respond = requests.get(self.url)
             json_format = json.loads(self.respond.text)
             self.motion_Topic = json_format["topic"]["motionTopic"]
-            print("PublishData:: BROKER VARIABLES ARE READY")
+            print("Motion_Publisher:: BROKER VARIABLES ARE READY")
         except:
-            print("PublishData: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
+            print("Motion_Publisher: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
 
     @staticmethod
     def on_connect(client, userdata, flags, rc):
@@ -43,24 +46,19 @@ class PublishData(object):
         return str(mid)
 
     def publish_sensor_data(self):
-        #This function will publish the data related to temperature and humidity
+        # This function will publish the data related to temperature and humidity
         try:
             inputJsonFromTHSensor = self.sensor_t_h.sensemotion()
             inputData = json.loads(inputJsonFromTHSensor)
             motionDetection = inputData["Motion_Detection"]
-            print("TRACE CHECK- PUBLISH SENSOR DATA: ",motionDetection)
             outputJson=json.dumps({"subject":"motion_data", "roomId":self.roomId, "Motion_Detection": motionDetection})
             msg_info = client.publish(self.motion_Topic, str(outputJson), qos=1)
-            print("\nMessage is published.")
-            #if msg_info.is_published() == True:
-            #    print ("\nMessage is published.")
-            # This call will block until the message is published
-            #msg_info.wait_for_publish()
+            print("\n Motion_Publisher: Message is published.")
             return ("HELLO", json_format)
         except:
             get_time = datetime.datetime.now()
             current_time = get_time.strftime("%Y-%m-%d %H:%M:%S")
-            print("PublishData: ERROR IN PUBLISHING DATA RELATED TO THE SENSORS")
+            print("Motion_Publisher: ERROR IN PUBLISHING DATA RELATED TO THE SENSORS")
             print ("at time: " + str(current_time))
 
 
@@ -72,7 +70,7 @@ if __name__ == '__main__':
         json_string = file.read()
         file.close()
     except:
-        raise KeyError("***** PublishData: ERROR IN READING CONFIG FILE *****")
+        raise KeyError("***** Motion_Publisher: ERROR IN READING CONFIG FILE *****")
 
     config_json = json.loads(json_string)
     resourceCatalogIP = config_json["reSourceCatalog"]["url"]
@@ -82,31 +80,28 @@ if __name__ == '__main__':
         # create an object from ReadingDHT class
         sensor_data = MotionDetection()
     except:
-        print("PublishData: ERROR IN GETTING DATA FROM SENSOR ")
+        print("Motion_Publisher: ERROR IN GETTING DATA FROM SENSOR ")
 
     client = mqttc.Client()
     sens = PublishData(url, sensor_data,roomId, client)
+    sens.load_topics()
+    try:
+        # requesting the broker info from resource catalog
+        respond = requests.get(resourceCatalogIP+"broker")
+        json_format = json.loads(respond.text)
+        broker_ip = json_format["ip"]
+        port = json_format["port"]
+    except:
+        print("Motion_Publisher: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER IP")
+
+    try:
+        client.on_connect = PublishData.on_connect
+        client.on_publish = PublishData.on_publish
+        client.connect(broker_ip, int(port))
+        client.loop_start()
+    except:
+        print("Motion_Publisher: ERROR IN CONNECTING TO THE BROKER")
 
     while True:
-        sens.load_topics()
-        try:
-            #requesting the vroker info from resource catalog
-            respond = requests.get(resourceCatalogIP+"broker")
-            json_format = json.loads(respond.text)
-            broker_ip = json_format["ip"]
-            port = json_format["port"]
-        except:
-            print("PublishData: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER IP")
-
-        try:
-            client.on_connect = PublishData.on_connect
-            client.on_publish = PublishData.on_publish
-            client.connect(broker_ip, int(port))
-            client.loop_start()
-        except:
-            print("PublishData: ERROR IN CONNECTING TO THE BROKER")
-
-        while True:
-            sens.load_topics()
-            sens.publish_sensor_data()
-            time.sleep(30)
+        sens.publish_sensor_data()
+        time.sleep(15)
