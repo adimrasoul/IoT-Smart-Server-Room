@@ -5,6 +5,8 @@ import datetime
 import requests
 import json
 
+"""publishing the data of Motion Sensor"""
+
 
 class PublishData(object):
 
@@ -20,9 +22,9 @@ class PublishData(object):
             self.respond = requests.get(self.url)
             json_format = json.loads(self.respond.text)
             self.smokeTopic = json_format["topic"]["smokeTopic"]
-            print("PublishData:: BROKER VARIABLES ARE READY")
+            print("Smoke_Publisher:: BROKER VARIABLES ARE READY")
         except:
-            print("PublishData: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
+            print("Smoke_Publisher: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER TOPICS")
 
     @staticmethod
     def on_connect(client, userdata, flags, rc):
@@ -44,7 +46,7 @@ class PublishData(object):
         return str(mid)
 
     def publishSmokeData(self):
-        #This function will publish the data related to temperature and humidity
+        # This function will publish the data related to temperature and humidity
         try:
             inputJsonFromSmokeSensor = self.sensor_s.senseSmoke()
             inputData = json.loads(inputJsonFromSmokeSensor)
@@ -53,12 +55,12 @@ class PublishData(object):
 
             jsonFormat = json.dumps({"subject": "smoke", "roomId": self.roomId, "value":smokeValue,"time":time1 })
             msgInfo = client.publish(self.smokeTopic, str(jsonFormat))
-            print("Message published:", msgInfo)
+            print("Smoke_Publisher : Message published:", msgInfo)
             return
         except:
             get_time = datetime.datetime.now()
             current_time = get_time.strftime("%Y-%m-%d %H:%M:%S")
-            print("PublishData: ERROR IN PUBLISHING DATA RELATED TO THE SENSORS")
+            print("Smoke_Publisher: ERROR IN PUBLISHING DATA RELATED TO THE SENSORS")
             print("at time: " + str(current_time))
 
 
@@ -70,7 +72,7 @@ if __name__ == '__main__':
         json_string = file.read()
         file.close()
     except:
-        raise KeyError("***** PublishData: ERROR IN READING CONFIG FILE *****")
+        raise KeyError("***** Smoke_Publisher: ERROR IN READING CONFIG FILE *****")
 
     config_json = json.loads(json_string)
     resourceCatalogIP = config_json["reSourceCatalog"]["url"]
@@ -78,34 +80,32 @@ if __name__ == '__main__':
     url = resourceCatalogIP + roomId
 
     try:
-        # create an object from ReadingDHT class
+        # create an object from Smoke_Detection class
         sensor_data = Smoke_Detection()
     except:
-        print("PublishData: ERROR IN GETTING DATA FROM SENSOR ")
+        print("Smoke_Publisher: ERROR IN GETTING DATA FROM SENSOR ")
 
     client = mqttc.Client()
     sens = PublishData(url, sensor_data,roomId, client)
 
+    sens.load_topics()
+    try:
+        # requesting the broker info from resource catalog
+        respond = requests.get(resourceCatalogIP+"broker")
+        json_format = json.loads(respond.text)
+        broker_ip = json_format["ip"]
+        port = json_format["port"]
+    except:
+        print("Smoke_Publisher: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER IP")
+
+    try:
+        client.on_connect = PublishData.on_connect
+        client.on_publish = PublishData.on_publish
+        client.connect(broker_ip, int(port))
+        client.loop_start()
+    except:
+        print("Smoke_Publisher: ERROR IN CONNECTING TO THE BROKER")
+
     while True:
-        sens.load_topics()
-        try:
-            #requesting the vroker info from resource catalog
-            respond = requests.get(resourceCatalogIP+"broker")
-            json_format = json.loads(respond.text)
-            broker_ip = json_format["ip"]
-            port = json_format["port"]
-        except:
-            print("PublishData: ERROR IN CONNECTING TO THE SERVER FOR READING BROKER IP")
-
-        try:
-            client.on_connect = PublishData.on_connect
-            client.on_publish = PublishData.on_publish
-            client.connect(broker_ip, int(port))
-            client.loop_start()
-        except:
-            print("PublishData: ERROR IN CONNECTING TO THE BROKER")
-
-        while True:
-            sens.load_topics()
-            sens.publishSmokeData()
-            time.sleep(30)
+        sens.publishSmokeData()
+        time.sleep(15)

@@ -3,7 +3,8 @@ import datetime
 import json
 import time
 
-"""Detection of Motion"""
+"""Detection of Motion Sensor"""
+
 
 class MotionDetection(object):
 
@@ -19,7 +20,7 @@ class MotionDetection(object):
             #GPIO.setup(3, GPIO.OUT)
             self.data = GPIO.input(11)
         except:
-            print("Detecting Motion Error : ERROR IN READING THE SENSOR")
+            print("Motion_Sensor : ERROR IN READING THE SENSOR")
 
         if self.data is not None:
             if self.data == 1:
@@ -33,7 +34,7 @@ class MotionDetection(object):
             outputjson = json.dumps({"time": current_time,"Motion_Detection": self.detection})
             return outputjson
         else:
-            print("ReadingMotionSensor ERROR IN SENDING JSON")
+            print("Motion_Sensor : ERROR IN SENDING JSON")
             return
 
 
